@@ -33,7 +33,6 @@ const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Required"),
   fullName: Yup.string().min(2, "Too short").required("Required"),
-  image: Yup.string(),
   phone: Yup.string()
     .matches(/^[0-9]{7,15}$/, "Digits only (7–15)")
     .required("Required"),
@@ -49,6 +48,7 @@ export default function EditProfilePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [profile, setProfile] = useState<IUserData | null>(null);
+  const [avatar, setAvatar] = useState(profile?.image || placeholderImg);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
@@ -74,8 +74,7 @@ export default function EditProfilePage() {
       return {
         email: "",
         fullName: "",
-        image: "",
-        avatarFile: null,
+        image: null,
         phone: "",
         countryCode: "EG",
         day: "",
@@ -96,7 +95,6 @@ export default function EditProfilePage() {
       email: profile.email,
       fullName: profile.fullname,
       image: profile.image,
-      avatarFile: null,
       phone: local,
       countryCode,
       day,
@@ -105,10 +103,20 @@ export default function EditProfilePage() {
     };
   }, [profile]);
 
-  function handleImageFileChange(e: ChangeEvent<HTMLInputElement>) {
+  function handleImageFileChange(
+    e: ChangeEvent<HTMLInputElement>,
+    setFieldValue: (
+      field: string,
+      value: File,
+      shouldValidate?: boolean | undefined
+    ) => void
+  ) {
     const file = e.currentTarget.files?.[0];
     if (!file) return;
-    else setAvatarPreview(URL.createObjectURL(file));
+    else {
+      setFieldValue("image", file);
+      setAvatarPreview(URL.createObjectURL(file));
+    }
   }
 
   async function onSubmit(values: FormValues) {
@@ -121,11 +129,11 @@ export default function EditProfilePage() {
     )}`;
 
     await updateProfile({
-      name: values.fullName,
       email: values.email,
       phone,
+      fullname: values.fullName,
       birthdate,
-      image: values.avatarFile,
+      image: values.image,
     });
   }
 
@@ -182,7 +190,10 @@ export default function EditProfilePage() {
         <div className="mt-2 flex flex-col items-center">
           <div className="relative">
             <img
-              src={avatarPreview || profile.image || placeholderImg}
+              src={avatarPreview  || avatar || placeholderImg}
+              onError={() => {
+                setAvatar(placeholderImg);
+              }}
               alt="Avatar"
               className="h-24 w-24 rounded-full object-cover ring-2 ring-white shadow"
             />
@@ -214,7 +225,7 @@ export default function EditProfilePage() {
                   onChange={(e) => {
                     const file = e.currentTarget.files?.[0];
                     if (file) {
-                      setFieldValue("avatarFile", file);
+                      setFieldValue("image", file);
                       setAvatarPreview(URL.createObjectURL(file));
                     }
                   }}
@@ -250,7 +261,9 @@ export default function EditProfilePage() {
                 accept="image/*"
                 className="hidden"
                 ref={fileInputRef}
-                onChange={handleImageFileChange}
+                onChange={(e) => {
+                  handleImageFileChange(e, setFieldValue);
+                }}
               />
 
               <InputWithIcon
