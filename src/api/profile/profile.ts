@@ -20,7 +20,6 @@ export const getProfile = async () => {
 };
 
 export async function updateProfile(data: UpdateProfilePayload) {
-  console.log(data);
   try {
     const formData = new FormData();
     formData.append("fullname", data.fullname);

@@ -167,7 +167,7 @@ export type IAppointment = {
 export type UpdateProfilePayload = {
   phone: string;
   fullname: string;
-  image: File | null;
+  image: File | string;
   email: string;
   birthdate: string;
 };
@@ -186,7 +186,7 @@ export type ProfileItem = {
 export type FormValues = {
   email: string;
   fullName: string;
-  image: File | null;
+  image: File | string;
   phone: string;
   countryCode: string;
   day: string | number | "";

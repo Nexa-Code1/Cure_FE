@@ -74,7 +74,7 @@ export default function EditProfilePage() {
       return {
         email: "",
         fullName: "",
-        image: null,
+        image: "",
         phone: "",
         countryCode: "EG",
         day: "",
@@ -190,7 +190,7 @@ export default function EditProfilePage() {
         <div className="mt-2 flex flex-col items-center">
           <div className="relative">
             <img
-              src={avatarPreview  || avatar || placeholderImg}
+              src={avatarPreview || avatar || placeholderImg}
               onError={() => {
                 setAvatar(placeholderImg);
               }}
