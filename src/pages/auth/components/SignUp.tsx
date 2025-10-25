@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { Loader } from "@/components/common/Loader";
 import { handleSignUp } from "@/api/auth/auth";
 import type { ISignUp } from "@/types";
-import { social } from "@/lib/data";
 
 export default function SignUp() {
     const navigate = useNavigate();
@@ -44,9 +43,9 @@ export default function SignUp() {
 
     const formik = useFormik({
         initialValues: {
-            fullname: "Test User",
-            email: "namih68266@apocaw.com",
-            password: "12345678",
+            fullname: "",
+            email: "",
+            password: "",
         },
         validationSchema,
         onSubmit: handleSignUpSubmit,
@@ -164,26 +163,7 @@ export default function SignUp() {
                         </Button>
                     </form>
 
-                    <div className="my-6">
-                        <div className="w-full relative h-0.5 bg-gray-200">
-                            <div className="absolute text-gray-400 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-2 rounded-full">
-                                or
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="flex items-center justify-between gap-2 mb-4">
-                        {social.map((item) => (
-                            <div
-                                key={item.id}
-                                className="bg-white p-4 rounded-2xl border cursor-pointer"
-                            >
-                                {item.icon}
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="text-center">
+                    <div className="text-center mt-4">
                         Already have an account!{" "}
                         <Link to="/sign-in" className="text-primary">
                             Sign In

@@ -21,11 +21,13 @@ export const getProfile = async () => {
 
 export async function updateProfile(data: UpdateProfilePayload) {
     try {
+        console.log(data);
         const formData = new FormData();
-        formData.append("fullname", data.name);
+        formData.append("fullname", data.fullname);
         formData.append("email", data.email);
         formData.append("phone", data.phone);
         formData.append("date_of_birth", data.birthdate);
+        formData.append("address", data.address);
         if (data.image) formData.append("image", data.image);
 
         const res = await axios.put(

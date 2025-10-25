@@ -1,6 +1,5 @@
-import React from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
-    Bell,
     ClipboardClock,
     CreditCard,
     Heart,
@@ -29,10 +28,8 @@ import { useUserContext } from "@/context/user-context";
 export default function ProfileScreen() {
     const navigate = useNavigate();
     const { setUser } = useUserContext();
-
-    const [logoutOpen, setLogoutOpen] = React.useState(false);
-
-    const [data, setData] = React.useState<ProfileItem[]>([]);
+    const [logoutOpen, setLogoutOpen] = useState(false);
+    const [data, setData] = useState<ProfileItem[]>([]);
 
     const handleToggle = (id: string, next: boolean) => {
         setData((prev) =>
@@ -53,21 +50,14 @@ export default function ProfileScreen() {
         }
     };
 
-    const items = React.useMemo<ProfileItem[]>(
+    const items = useMemo<ProfileItem[]>(
         () => [
-            {
-                id: "notifications",
-                label: "Notification",
-                icon: Bell,
-                type: "toggle",
-                enabled: true,
-            },
             {
                 id: "payment",
                 label: "Payment Method",
                 icon: CreditCard,
                 type: "link",
-                href: "/payment-management",
+                href: "/payment-list",
             },
             {
                 id: "appointments",
@@ -117,7 +107,7 @@ export default function ProfileScreen() {
         []
     );
 
-    React.useEffect(() => setData(items), [items]);
+    useEffect(() => setData(items), [items]);
 
     return (
         <div className="min-h-screen bg-zinc-50 py-4 sm:py-8">

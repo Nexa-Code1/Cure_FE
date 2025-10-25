@@ -22,11 +22,6 @@ type DoctorLocationProps = {
 function DoctorLocation({ location }: DoctorLocationProps) {
     const { address, isLoading } = useAddress(location.x, location.y);
 
-<<<<<<< HEAD
-=======
-    console.log("test");
-
->>>>>>> 23e2e2ee391a9ca1041c75b9ae3820bc9df92399
     if (isLoading) return <Loader />;
 
     return (

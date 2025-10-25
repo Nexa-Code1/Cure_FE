@@ -18,8 +18,8 @@ export default function TopRated() {
         const handleGetDoctors = async () => {
             try {
                 setLoading(true);
-                const doctors = await getTopRatedDoctors();
-                setDoctors(doctors);
+                const doctorsRes = await getTopRatedDoctors();
+                setDoctors(doctorsRes);
             } catch (error) {
                 console.error(error);
             } finally {

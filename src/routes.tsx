@@ -22,7 +22,6 @@ import {
     EditProfilePage,
     SettingsPage,
     PasswordManagementPage,
-    PaymentMethodPage,
     PaymentListPage,
     AddNewCardPage,
     ProtectedRoute,
@@ -121,10 +120,6 @@ export const router = createBrowserRouter([
             {
                 path: "/password-management",
                 element: <PasswordManagementPage />,
-            },
-            {
-                path: "/payment-management",
-                element: <PaymentMethodPage />,
             },
             {
                 path: "/payment-list",

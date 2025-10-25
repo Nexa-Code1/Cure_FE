@@ -19,7 +19,6 @@ export { default as Review } from "./review/Review";
 export { default as EditProfilePage } from "./profile/EditProfile";
 export { default as SettingsPage } from "./profile/SettingsPage";
 export { default as PasswordManagementPage } from "./profile/PasswordManagementPage";
-export { default as PaymentMethodPage } from "./profile/PaymentMethodPage";
 export { default as PaymentListPage } from "./profile/PaymentListPage";
 export { default as AddNewCardPage } from "./profile/AddNewCardPage";
 export { default as NotFound } from "./NotFound";

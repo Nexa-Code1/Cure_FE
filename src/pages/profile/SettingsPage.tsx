@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft, ChevronRight, KeyRound, UserX, Eye, EyeOff } from "lucide-react";
+import { ChevronRight, KeyRound, UserX, Eye, EyeOff } from "lucide-react";
 import {
     Dialog,
     DialogContent,
@@ -10,6 +10,7 @@ import {
     DialogClose,
 } from "@/components/ui/dialog";
 import { deleteAccount } from "@/api/profile/profile";
+import GoBackButton from "@/components/common/GoBackButton";
 
 type RowProps = {
     icon: React.ElementType;
@@ -18,7 +19,12 @@ type RowProps = {
     tone?: "default" | "danger";
 };
 
-function SettingsRow({ icon: Icon, label, onClick, tone = "default" }: RowProps) {
+function SettingsRow({
+    icon: Icon,
+    label,
+    onClick,
+    tone = "default",
+}: RowProps) {
     return (
         <button
             type="button"
@@ -33,7 +39,11 @@ function SettingsRow({ icon: Icon, label, onClick, tone = "default" }: RowProps)
             aria-label={label}
         >
             <span className="flex items-center gap-3 min-w-0">
-                <Icon className={`h-5 w-5 ${tone === "danger" ? "text-rose-600" : "text-zinc-700"}`} />
+                <Icon
+                    className={`h-5 w-5 ${
+                        tone === "danger" ? "text-rose-600" : "text-zinc-700"
+                    }`}
+                />
                 <span className="text-sm sm:text-base truncate">{label}</span>
             </span>
             <ChevronRight className="h-5 w-5 text-zinc-400 shrink-0" />
@@ -58,7 +68,6 @@ export default function SettingsPage() {
     };
 
     async function handleDelete() {
-
         if (!password || password.length < 6) {
             setErr("Password is required (min 6 characters).");
             return;
@@ -67,7 +76,7 @@ export default function SettingsPage() {
             setSubmitting(true);
             setErr(null);
 
-            await deleteAccount(password)
+            await deleteAccount(password);
             localStorage.removeItem("token");
             setOpen(false);
             resetDialog();
@@ -82,20 +91,13 @@ export default function SettingsPage() {
     return (
         <div className="min-h-screen bg-white">
             <div className="mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl px-3 sm:px-4 md:px-6">
-
                 <div className="flex items-center gap-2 py-3 sm:py-4">
-                    <button
-                        type="button"
-                        onClick={() => navigate(-1)}
-                        aria-label="Back"
-                        className="-ml-2 rounded-full p-2 hover:bg-zinc-100"
-                    >
-                        <ChevronLeft className="h-5 w-5 text-zinc-700" />
-                    </button>
-                    <h1 className="mx-auto text-lg sm:text-xl font-semibold text-zinc-900">Settings</h1>
+                    <GoBackButton />
+                    <h1 className="mx-auto text-lg sm:text-xl font-semibold text-zinc-900">
+                        Settings
+                    </h1>
                     <div className="w-9" />
                 </div>
-
 
                 <div className="space-y-3 sm:space-y-4 mt-1">
                     <SettingsRow
@@ -126,13 +128,11 @@ export default function SettingsPage() {
                         </DialogTitle>
                     </DialogHeader>
 
-
                     <div className="mx-4 sm:mx-6 h-px bg-zinc-200" />
 
                     <DialogDescription className="px-4 pt-4 text-center text-[15px] text-zinc-600 sm:px-6">
                         Are you sure you want to delete your account?
                     </DialogDescription>
-
 
                     <div className="px-4 sm:px-6 pt-2">
                         <label className="mb-1 block text-sm font-medium text-zinc-900">
@@ -151,14 +151,21 @@ export default function SettingsPage() {
                                 type="button"
                                 onClick={() => setShow((s) => !s)}
                                 className="ml-2 text-zinc-500 hover:text-zinc-700"
-                                aria-label={show ? "Hide password" : "Show password"}
+                                aria-label={
+                                    show ? "Hide password" : "Show password"
+                                }
                             >
-                                {show ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                                {show ? (
+                                    <EyeOff className="h-5 w-5" />
+                                ) : (
+                                    <Eye className="h-5 w-5" />
+                                )}
                             </button>
                         </div>
-                        {err && <p className="mt-1 text-xs text-rose-600">{err}</p>}
+                        {err && (
+                            <p className="mt-1 text-xs text-rose-600">{err}</p>
+                        )}
                     </div>
-
 
                     <div className="px-4 pb-4 sm:px-6 pt-3">
                         <div className="grid grid-cols-2 gap-3">

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft } from "lucide-react";
 
 import nothingImg from "@/assets/images/no-cards.png";
 import { getPaymentMethods, removePaymentMethod } from "@/api/profile/profile";
@@ -10,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import CancelConfirmationModal from "@/components/common/CancelConfirmationModal";
 import type { PaymentMethod } from "@stripe/stripe-js";
 import { brandLogoSrc } from "@/lib/utils";
+import GoBackButton from "@/components/common/GoBackButton";
 
 type Props = {
     emptyImageSrc?: string;
@@ -30,7 +30,6 @@ export default function PaymentListPage({ cards: initialCards }: Props) {
             try {
                 setIsLoadingMethods(true);
                 const res = await getPaymentMethods();
-                console.log(res);
                 const newData = res.data.map((item: PaymentMethod) => ({
                     id: item.id,
                     brand: item.card?.brand,
@@ -75,14 +74,7 @@ export default function PaymentListPage({ cards: initialCards }: Props) {
         <div className="min-h-screen bg-white">
             <div className="mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg px-3 sm:px-4 md:px-6">
                 <div className="flex items-center gap-2 py-3 sm:py-4">
-                    <button
-                        type="button"
-                        onClick={() => navigate(-1)}
-                        aria-label="Back"
-                        className="-ml-2 rounded-full p-2 hover:bg-zinc-100"
-                    >
-                        <ChevronLeft className="h-5 w-5 text-zinc-700" />
-                    </button>
+                    <GoBackButton />
                     <h1 className="mx-auto text-lg sm:text-xl font-semibold text-zinc-900">
                         Payment Method
                     </h1>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MapPin, ChevronRight } from "lucide-react";
+import { MapPin, Edit } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import { getProfile } from "@/api/profile/profile";
@@ -64,10 +64,10 @@ export default function ProfileHeader() {
 
                 <button
                     onClick={() => navigate("/edit-profile")}
-                    className="shrink-0 rounded-full p-2 hover:bg-zinc-100"
+                    className="shrink-0 rounded-full p-2 hover:bg-zinc-100 cursor-pointer"
                     aria-label="Go to edit profile"
                 >
-                    <ChevronRight className="h-5 w-5 text-zinc-600" />
+                    <Edit className="h-5 w-5 text-zinc-600" />
                 </button>
             </div>
         </Card>

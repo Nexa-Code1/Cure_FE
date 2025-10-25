@@ -1,37 +1,9 @@
-import React from "react";
-import { ChevronLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { handleGetPrivacyPolicy } from "@/api/privacy-terms/privacy-terms";
+import GoBackButton from "@/components/common/GoBackButton";
 
-type Policy = {
-    id: number;
-    type: string;
-    title: string;
-    content: string;
-};
+const privacyPolicyContent =
+    'Privacy Policy\nEffective Date: Sep 16, 2025\n\nThis Privacy Policy explains how Tech-cell ("we", "our", "us") collects, uses, and protects your information when you use our online doctor booking platform (the "Service").\n\n1) Information We Collect\n- Personal Information: name, email, phone number.\n- Medical Information: appointment notes/medical history (if applicable).\n- Technical Data: IP address, browser, device details.\n- Payments: processed via secure gateways (we don\'t store card data).\n\n2) How We Use Information\nWe use it to manage appointments, send notifications, improve the Service, process payments, and meet legal obligations.\n\n3) Sharing Information\nWe only share with healthcare providers, payment processors, or legal authorities when required. We do not sell your data.\n\n4) Security\nWe apply industry-standard security and encryption practices.\n\n5) Your Rights\nYou can request access, correction, or deletion of your personal data.\n\n6) Cookies\nWe use cookies to enhance your experience. You can disable them in your browser.\n\n7) Third-Party Links\nWe are not responsible for the privacy practices of third-party sites.\n\n8) Children’s Privacy\nWe do not knowingly collect data from children under 13 without parental consent.\n\n9) Changes\nWe may update this policy from time to time. Please review periodically.\n\n10) Contact Us\nEmail: tech-cell@example.com\nPhone: +20 123 456 789\nAddress: Cairo, Egypt';
 
-export const PrivacyPage: React.FC = () => {
-    const nav = useNavigate();
-
-    const [data, setData] = React.useState<Policy | null>(null);
-    const [loading, setLoading] = React.useState(true);
-    const [error, setError] = React.useState<string | null>(null);
-
-    React.useEffect(() => {
-        (async () => {
-            try {
-                setLoading(true);
-                setError(null);
-                const res = await handleGetPrivacyPolicy();
-                setData(res ?? null);
-            } catch (e) {
-                setError("Failed to load policy");
-            } finally {
-                setLoading(false);
-            }
-        })();
-    }, []);
-
+export const PrivacyPage = () => {
     const renderContent = (text: string) => {
         return text.split(/\n\n+/).map((block, i) => {
             if (/^\d+\)/.test(block)) {
@@ -59,41 +31,15 @@ export const PrivacyPage: React.FC = () => {
         <div className="min-h-screen bg-white">
             <div className="mx-auto max-w-md sm:max-w-lg md:max-w-xl px-4 py-4">
                 <div className="flex items-center gap-2 pb-4">
-                    <button
-                        type="button"
-                        className="-ml-2 rounded-full p-2 hover:bg-zinc-100"
-                        aria-label="Back"
-                        onClick={() => nav(-1)}
-                    >
-                        <ChevronLeft className="h-5 w-5 text-zinc-700" />
-                    </button>
+                    <GoBackButton />
                     <h1 className="mx-auto text-lg sm:text-xl md:text-2xl font-semibold text-zinc-900">
-                        {data?.title || "Privacy Policy"}
+                        Privacy Policy
                     </h1>
-                    <div className="w-9" />
                 </div>
 
-                {loading && (
-                    <div className="space-y-3">
-                        <div className="h-5 w-40 rounded bg-zinc-100 animate-pulse" />
-                        {[...Array(6)].map((_, i) => (
-                            <div
-                                key={i}
-                                className="h-3 w-full rounded bg-zinc-100 animate-pulse"
-                            />
-                        ))}
-                    </div>
-                )}
-
-                {!loading && error && (
-                    <p className="text-sm text-rose-600">{error}</p>
-                )}
-
-                {!loading && !error && data && (
-                    <article className="space-y-5">
-                        {renderContent(data.content)}
-                    </article>
-                )}
+                <article className="space-y-5">
+                    {renderContent(privacyPolicyContent)}
+                </article>
             </div>
         </div>
     );

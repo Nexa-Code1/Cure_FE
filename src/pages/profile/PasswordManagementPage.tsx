@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ChevronLeft, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 import { updatePassword } from "@/api/profile/profile";
 import type { FormResetPassword } from "@/types";
+import GoBackButton from "@/components/common/GoBackButton";
 
 // Yup validation schema
 const PasswordSchema = Yup.object({
@@ -21,8 +21,6 @@ const PasswordSchema = Yup.object({
 });
 
 export default function PasswordManagementPage() {
-    const navigate = useNavigate();
-
     const [showPassword, setShowPassword] = useState({
         current: false,
         new: false,
@@ -55,14 +53,7 @@ export default function PasswordManagementPage() {
             <div className="mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg px-3 sm:px-4 md:px-6">
                 {/* Header */}
                 <div className="flex items-center gap-2 py-3 sm:py-4">
-                    <button
-                        type="button"
-                        onClick={() => navigate(-1)}
-                        aria-label="Back"
-                        className="-ml-2 rounded-full p-2 hover:bg-zinc-100"
-                    >
-                        <ChevronLeft className="h-5 w-5 text-zinc-700" />
-                    </button>
+                    <GoBackButton />
                     <h1 className="mx-auto text-lg sm:text-xl font-semibold text-zinc-900">
                         Password management
                     </h1>

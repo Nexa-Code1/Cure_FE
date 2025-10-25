@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-import { ChevronLeft, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -13,6 +13,7 @@ import {
     DialogFooter,
 } from "@/components/ui/dialog";
 import { addReview } from "@/api/doctors/doctors";
+import GoBackButton from "@/components/common/GoBackButton";
 
 export default function ReviewPage() {
     const [rating, setRating] = React.useState<number>(0);
@@ -51,16 +52,7 @@ export default function ReviewPage() {
         <div className="min-h-screen bg-white">
             <div className="mx-auto w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl px-4 md:px-6">
                 <div className="flex items-center gap-2 py-3 md:py-4">
-                    <button
-                        type="button"
-                        aria-label="Back"
-                        className="-ml-2 rounded-full p-2 hover:bg-zinc-100"
-                    >
-                        <ChevronLeft
-                            className="h-5 w-5 text-zinc-700 sm:h-6 sm:w-6"
-                            onClick={() => navigate(-1)}
-                        />
-                    </button>
+                    <GoBackButton />
                     <h1 className="mx-auto font-semibold text-zinc-900 text-lg sm:text-xl md:text-2xl">
                         Review
                     </h1>

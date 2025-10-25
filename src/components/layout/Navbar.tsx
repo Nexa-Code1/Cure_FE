@@ -1,5 +1,4 @@
 import {
-    Bell,
     Calendar,
     ChevronRight,
     ClipboardClock,
@@ -13,7 +12,7 @@ import {
     Shield,
     User,
 } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -28,14 +27,15 @@ import CureIcon from "../common/CureIcon";
 import { handleLogout } from "@/api/auth/auth";
 import { useUserContext } from "@/context/user-context";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import placeholderImg from "@/assets/images/user-placeholder.png";
+import userPlaceholderImg from "@/assets/images/user-placeholder.png";
 
 const Navbar = () => {
-    const [logoutOpen, setLogoutOpen] = React.useState(false);
+    const [logoutOpen, setLogoutOpen] = useState(false);
     const navigate = useNavigate();
     const { user, setUser } = useUserContext();
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [activeTab, setActiveTab] = useState("home");
+    const [userImg, setUserImg] = useState(user?.image || userPlaceholderImg);
 
     const toggleProfile = () => setIsProfileOpen((v) => !v);
     const closeProfile = () => setIsProfileOpen(false);
@@ -95,15 +95,6 @@ const Navbar = () => {
                     >
                         <Heart className="w-5 h-5 text-gray-600" />
                     </button>
-                    <button
-                        title="Notification"
-                        type="button"
-                        className="hidden md:block p-2 hover:bg-gray-100 rounded-lg relative cursor-pointer"
-                        onClick={() => navigate("/notifications")}
-                    >
-                        <Bell className="w-5 h-5 text-gray-600" />
-                        <div className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></div>
-                    </button>
 
                     {/* Profile Photo */}
                     <button
@@ -113,20 +104,15 @@ const Navbar = () => {
                         className="relative cursor-pointer"
                     >
                         <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-gray-200">
-                            {user?.image ? (
-                                <img
-                                    src={`${user?.image}`}
-                                    alt="Profile"
+                            <Avatar className="w-full h-full">
+                                <AvatarImage
+                                    src={userImg}
                                     className="w-full h-full object-cover"
                                     onError={() =>
-                                        (user.image = placeholderImg)
+                                        setUserImg(userPlaceholderImg)
                                     }
                                 />
-                            ) : (
-                                <Avatar className="w-full h-full">
-                                    <AvatarImage src={placeholderImg} />
-                                </Avatar>
-                            )}
+                            </Avatar>
                         </div>
                     </button>
                 </div>
@@ -136,20 +122,15 @@ const Navbar = () => {
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                         <div className="w-10 h-10 rounded-full overflow-hidden">
-                            {user?.image ? (
-                                <img
-                                    src={`${user?.image}`}
-                                    alt="Profile"
+                            <Avatar className="w-full h-full">
+                                <AvatarImage
+                                    src={userImg}
                                     className="w-full h-full object-cover"
                                     onError={() =>
-                                        (user.image = placeholderImg)
+                                        setUserImg(userPlaceholderImg)
                                     }
                                 />
-                            ) : (
-                                <Avatar className="w-full h-full">
-                                    <AvatarImage src={placeholderImg} />
-                                </Avatar>
-                            )}
+                            </Avatar>
                         </div>
                         <div>
                             <h2 className="text-sm md:text-xl font-semibold text-gray-900">
@@ -173,15 +154,6 @@ const Navbar = () => {
                                 onClick={() => navigate("/favourite")}
                             />
                         </button>
-                        <button
-                            title="Notification"
-                            type="button"
-                            className="p-2 hover:bg-gray-100 rounded-lg relative cursor-pointer"
-                            onClick={() => navigate("/notifications")}
-                        >
-                            <Bell className="w-5 h-5 text-gray-600" />
-                            <div className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></div>
-                        </button>
                     </div>
                 </div>
                 <div className="flex flex-1 mt-4">
@@ -202,27 +174,23 @@ const Navbar = () => {
                     <div
                         className="fixed inset-0 bg-black/40 z-30"
                         onClick={closeProfile}
-                    ></div>
+                    />
                     <div className="fixed top-16 right-4 w-80 bg-[#F5F6F7] rounded-lg shadow-xl z-40 border">
                         <div className="p-4">
-                            <div className="flex items-center space-x-3 mb-4">
-                                <div className="w-12 h-12 rounded-full overflow-hidden">
-                                    {user?.image ? (
-                                        <img
-                                            src={`${user?.image}`}
-                                            alt="Profile"
-                                            className="w-full h-full object-cover"
-                                            onError={() =>
-                                                (user.image = placeholderImg)
-                                            }
-                                        />
-                                    ) : (
-                                        <Avatar className="w-full h-full">
-                                            <AvatarImage src={placeholderImg} />
-                                        </Avatar>
-                                    )}
-                                </div>
-                                <div className="flex-1">
+                            <button
+                                onClick={() => go("/profile")}
+                                className="w-full flex items-center gap-3 mb-4 cursor-pointer hover:bg-gray-50 focus:bg-gray-50 p-2 rounded-md"
+                            >
+                                <Avatar className="w-12 h-12 rounded-full overflow-hidden">
+                                    <AvatarImage
+                                        src={userImg}
+                                        className="w-full h-full object-cover"
+                                        onError={() =>
+                                            setUserImg(userPlaceholderImg)
+                                        }
+                                    />
+                                </Avatar>
+                                <div>
                                     <h3 className="font-semibold text-gray-900">
                                         {user?.fullname}
                                     </h3>
@@ -232,15 +200,7 @@ const Navbar = () => {
                                         </p>
                                     )}
                                 </div>
-                                <button
-                                    type="button"
-                                    title="Settings"
-                                    className="p-1 cursor-pointer hover:bg-gray-100 rounded"
-                                    onClick={() => go("/edit-profile")}
-                                >
-                                    <Settings className="w-4 h-4 text-gray-600" />
-                                </button>
-                            </div>
+                            </button>
 
                             <div className="space-y-1">
                                 <button

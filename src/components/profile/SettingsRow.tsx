@@ -14,12 +14,13 @@ export default function SettingsRow({ item, onToggle }: Props) {
     const nav = useNavigate();
 
     return (
-        <div
-            role="button"
+        <button
+            type="button"
             tabIndex={0}
             className="group w-full text-left cursor-pointer"
             onClick={() => {
                 if (item.type === "toggle") return;
+                if (item.href) nav(`${item.href}`);
                 if (item.onClick) item.onClick();
             }}
         >
@@ -54,6 +55,6 @@ export default function SettingsRow({ item, onToggle }: Props) {
                     />
                 )}
             </div>
-        </div>
+        </button>
     );
 }
