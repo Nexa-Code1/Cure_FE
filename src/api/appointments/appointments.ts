@@ -1,4 +1,4 @@
-import type { IAppointmentData } from "@/types";
+import type { BookingIntentOptions, IAppointmentData } from "@/types";
 import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -38,7 +38,6 @@ export const createDoctorAppointment = async (
                 },
             }
         );
-        console.log(response);
         return response.data;
     } catch (error) {
         console.error(error);
@@ -47,11 +46,16 @@ export const createDoctorAppointment = async (
 };
 
 // POST DOCTOR APPOINTMENT
-export const createBookingIntent = async (doctorId: number) => {
+export const createBookingIntent = async (
+    doctorId: number,
+    options: BookingIntentOptions
+) => {
     try {
         const response = await axios.post(
             `${BASE_URL}/booking/book-intent/${doctorId}`,
-            {},
+            {
+                options,
+            },
             {
                 headers: {
                     "Content-Type": "application/json",

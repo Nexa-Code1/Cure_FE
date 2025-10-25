@@ -50,8 +50,14 @@ function PaymentDialog({
         (async () => {
             try {
                 setIsLoading(true);
-                const res = await createBookingIntent(doctorDetails.id);
-                setClientSecret(res.bookingIntent.client_secret);
+                const res = await createBookingIntent(doctorDetails.id, {
+                    amount: Math.round(doctorDetails.price * 100),
+                    currency: "egp",
+                    automatic_payment_methods: {
+                        enabled: true,
+                    },
+                });
+                setClientSecret(res.paymentIntent.client_secret);
             } catch (error) {
                 console.error(error);
             } finally {

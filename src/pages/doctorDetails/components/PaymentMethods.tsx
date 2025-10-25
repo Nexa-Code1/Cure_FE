@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import type { PaymentMethod } from "@stripe/stripe-js";
 
 import { Label } from "@/components/ui/label";
@@ -8,7 +8,17 @@ import { getPaymentMethods } from "@/api/profile/profile";
 import { brandLogoSrc } from "@/lib/utils";
 import { Loader } from "@/components/common/Loader";
 
-function PaymentMethods() {
+type PaymentMethodsProps = {
+    selectedCardId: string;
+    onSelectCard: Dispatch<SetStateAction<string>>;
+    isAddingNewCard: boolean;
+};
+
+function PaymentMethods({
+    selectedCardId,
+    onSelectCard,
+    isAddingNewCard,
+}: PaymentMethodsProps) {
     const [cards, setCards] = useState<PaymentCard[]>([]);
     const [isLoadingMethods, setIsLoadingMethods] = useState(false);
 
@@ -41,7 +51,13 @@ function PaymentMethods() {
             <h2 className="font-medium text-lg text-primary-200">
                 Payment Method
             </h2>
-            <RadioGroup name="paymentMethod" className="my-4">
+            <RadioGroup
+                name="paymentMethod"
+                className="my-4"
+                value={selectedCardId}
+                onValueChange={(value) => onSelectCard(value)}
+                disabled={isAddingNewCard}
+            >
                 {cards.map((card) => (
                     <div className="flex items-center gap-2" key={card.id}>
                         <RadioGroupItem value={card.id} id={card.id} />

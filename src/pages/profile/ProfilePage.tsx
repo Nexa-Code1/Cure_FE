@@ -111,13 +111,13 @@ export default function ProfileScreen() {
 
     return (
         <div className="min-h-screen bg-zinc-50 py-4 sm:py-8">
-            <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 px-3 sm:px-6 lg:grid-cols-3 lg:gap-6">
+            <div className="mx-auto grid max-w-6xl grid-cols-1 md:grid-cols-2 gap-4 px-3 sm:px-6 lg:grid-cols-3 lg:gap-6">
                 <div className="lg:col-span-1">
                     <ProfileHeader />
                 </div>
 
                 <div className="lg:col-span-2">
-                    <ul className="mx-auto max-w-md px-3 space-y-3">
+                    <ul className="mx-auto px-3 space-y-3">
                         {data.map((item) => (
                             <li
                                 key={item.id}

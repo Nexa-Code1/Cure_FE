@@ -1,4 +1,5 @@
 import type { Dispatch, SetStateAction } from "react";
+import { useNavigate } from "react-router-dom";
 import { formatDate } from "date-fns";
 
 import {
@@ -23,6 +24,7 @@ function MessageDialog({
     onOpenChange,
     appointmentData,
 }: MessageDialogProps) {
+    const navigate = useNavigate();
     const { doctorName, date, time } = appointmentData;
 
     return (
@@ -41,7 +43,10 @@ function MessageDialog({
                     )} at ${time}`}</AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogAction className="bg-primary-200 text-secondary-100 rounded-full px-8 mx-auto cursor-pointer">
+                    <AlertDialogAction
+                        className="bg-primary-200 text-secondary-100 rounded-full px-8 mx-auto cursor-pointer"
+                        onClick={() => navigate("/appointments")}
+                    >
                         Done
                     </AlertDialogAction>
                 </AlertDialogFooter>

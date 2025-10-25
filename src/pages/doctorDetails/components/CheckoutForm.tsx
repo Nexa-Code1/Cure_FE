@@ -16,9 +16,12 @@ import type { FormikProps } from "formik";
 import DoctorPricing from "./DoctorPricing";
 import { Button } from "@/components/ui/button";
 import type { IAppointmentData, IAppointmentValues } from "@/types";
-import { createDoctorAppointment } from "@/api/appointments/appointments";
+import {
+    createBookingIntent,
+    createDoctorAppointment,
+} from "@/api/appointments/appointments";
 import PaymentMethods from "./PaymentMethods";
-import { useNavigate } from "react-router-dom";
+import { useUserContext } from "@/context/user-context";
 
 type CheckoutFormProps = {
     appointmentData: IAppointmentData;
@@ -35,9 +38,10 @@ function CheckoutForm({
 }: CheckoutFormProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [isAddingNewCard, setIsAddingNewCard] = useState(false);
+    const [selectedCardId, setSelectedCardId] = useState<string>("");
+    const { user } = useUserContext();
     const stripe = useStripe();
     const elements = useElements();
-    const navigate = useNavigate();
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         try {
@@ -45,23 +49,42 @@ function CheckoutForm({
             if (!stripe || !elements) return;
 
             setIsLoading(true);
-            const { error, paymentIntent } = await stripe.confirmPayment({
-                elements,
-                redirect: "if_required",
-            });
-
-            if (error) {
-                toast.error(error.message as string);
-            } else {
-                const res = await createDoctorAppointment(
-                    appointmentData,
-                    paymentIntent.id
+            // if user selected saved card
+            if (!isAddingNewCard || !selectedCardId) {
+                throw new Error("Please select payment method or add new one.");
+            } else if (selectedCardId) {
+                const res = await createBookingIntent(
+                    appointmentData.doctor_id,
+                    {
+                        amount: Math.round(appointmentData.price * 100),
+                        currency: "egp",
+                        customer: user?.customer_id,
+                        payment_method: selectedCardId,
+                        off_session: true,
+                        confirm: true,
+                    }
                 );
-                console.log(res);
-                formik.resetForm();
-                onMsgDialogOpenChange(true);
-                navigate("/appointments");
+                await createDoctorAppointment(
+                    appointmentData,
+                    res.paymentIntent.id
+                );
+            } else {
+                const { error, paymentIntent } = await stripe.confirmPayment({
+                    elements,
+                    redirect: "if_required",
+                });
+                if (error) {
+                    return toast.error(error.message as string);
+                } else
+                    await createDoctorAppointment(
+                        appointmentData,
+                        paymentIntent.id
+                    );
             }
+
+            formik.resetForm();
+            onMsgDialogOpenChange(true);
+            onCheckoutOpenChange(false);
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 toast.error(error.response?.data?.message);
@@ -72,18 +95,28 @@ function CheckoutForm({
             }
         } finally {
             setIsLoading(false);
-            onCheckoutOpenChange(false);
         }
+    }
+
+    function handleAddNewCard() {
+        setIsAddingNewCard((prev) => {
+            if (!prev) setSelectedCardId("");
+            return !prev;
+        });
     }
 
     return (
         <form onSubmit={handleSubmit}>
-            <PaymentMethods />
+            <PaymentMethods
+                selectedCardId={selectedCardId}
+                onSelectCard={setSelectedCardId}
+                isAddingNewCard={isAddingNewCard}
+            />
             <Button
                 className="w-full border-dashed border-primary-100 text-primary-100 cursor-pointer hover:text-primary-100 mb-4"
                 variant="outline"
                 type="button"
-                onClick={() => setIsAddingNewCard((prev) => !prev)}
+                onClick={handleAddNewCard}
             >
                 {isAddingNewCard ? "Cancel" : "+ Add new card"}
             </Button>
@@ -97,7 +130,7 @@ function CheckoutForm({
             <Button
                 className="w-full cursor-pointer"
                 type="submit"
-                disabled={isLoading}
+                disabled={isLoading || (!isAddingNewCard && !selectedCardId)}
             >
                 {isLoading ? "loading..." : "Pay"}
             </Button>

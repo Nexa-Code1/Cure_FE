@@ -9,6 +9,8 @@ export type IUserData = {
     gender?: "female" | "male";
     image: string;
     address: string;
+    customer_id: string;
+    stripe_payment_methods: { pm_id: string; fingerpring: string }[] | [];
     created_at: Date;
     updated_at: Date;
 };
@@ -257,4 +259,16 @@ export type PaymentCard = {
     last4: string;
     masked?: string;
     isDefault?: boolean;
+};
+
+export type BookingIntentOptions = {
+    amount: number;
+    currency: string;
+    customer?: string;
+    payment_method?: string;
+    off_session?: boolean;
+    confirm?: boolean;
+    automatic_payment_methods?: {
+        enabled: boolean;
+    };
 };
