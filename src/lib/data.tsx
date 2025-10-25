@@ -1,7 +1,10 @@
+<<<<<<< HEAD
 import creditCardImg from "@/assets/images/credit-card.png";
 import payPalImg from "@/assets/images/pay-pal.png";
 import applePayImg from "@/assets/images/apple-pay.png";
 
+=======
+>>>>>>> 23e2e2ee391a9ca1041c75b9ae3820bc9df92399
 export const social = [
     {
         id: "facebook",
@@ -88,6 +91,7 @@ export const months = [
     "November",
     "December",
 ];
+<<<<<<< HEAD
 
 export const paymentMethods = [
     {
@@ -106,3 +110,5 @@ export const paymentMethods = [
         imgSrc: applePayImg,
     },
 ];
+=======
+>>>>>>> 23e2e2ee391a9ca1041c75b9ae3820bc9df92399

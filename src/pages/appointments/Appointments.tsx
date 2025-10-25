@@ -28,7 +28,6 @@ function Appointments() {
             try {
                 setIsLoading(true);
                 const res = await getUserAppointments(filterBy);
-                console.log(res);
                 setUserAppointments(res);
             } catch (error) {
                 console.error(error);

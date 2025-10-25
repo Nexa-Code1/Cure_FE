@@ -44,7 +44,11 @@ function AppointmentTime({ formik, availableSlots }: AppointmentTimeProps) {
                                     htmlFor={time}
                                     className={`cursor-pointer text-gray-500 px-4 py-2 rounded-full border-2 border-blue-50 flex items-center gap-1 focus:border-blue-700 hover:bg-secondary-100 ${
                                         formik.values.time === time
+<<<<<<< HEAD
                                             ? "bg-primary-100 text-secondary-100 hover:bg-blue-800"
+=======
+                                            ? "bg-primary-100 text-secondary-100"
+>>>>>>> 23e2e2ee391a9ca1041c75b9ae3820bc9df92399
                                             : ""
                                     }`}
                                 >

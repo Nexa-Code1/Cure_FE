@@ -18,10 +18,17 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { cancelAppointment } from "@/api/appointments/appointments";
+<<<<<<< HEAD
 import { getDoctorDetails } from "@/api/doctors/doctors";
 import { useUserContext } from "@/context/user-context";
 import { Loader } from "@/components/common/Loader";
 import CancelConfirmationModal from "@/components/common/CancelConfirmationModal";
+=======
+import CancelConfirmation from "./CancelConfirmation";
+import { getDoctorDetails } from "@/api/doctors/doctors";
+import { useUserContext } from "@/context/user-context";
+import { Loader } from "@/components/common/Loader";
+>>>>>>> 23e2e2ee391a9ca1041c75b9ae3820bc9df92399
 
 type AppointmentCardProps = {
     appointment: IAppointment;
@@ -135,16 +142,26 @@ function AppointmentCard({
             <CardFooter className="flex items-center gap-4 mt-2">
                 {status === "upcoming" ? (
                     <>
+<<<<<<< HEAD
                         <CancelConfirmationModal
                             onConfirm={handleCancelAppointment}
                             isCanceling={isDeletingAppointment}
                             message="This action cannot be undone. This will permanently
                         delete this appointment."
+=======
+                        <CancelConfirmation
+                            onCancelAppointment={handleCancelAppointment}
+                            isDeletingAppointment={isDeletingAppointment}
+>>>>>>> 23e2e2ee391a9ca1041c75b9ae3820bc9df92399
                         >
                             <Button variant="outline" className="flex-1">
                                 Cancel
                             </Button>
+<<<<<<< HEAD
                         </CancelConfirmationModal>
+=======
+                        </CancelConfirmation>
+>>>>>>> 23e2e2ee391a9ca1041c75b9ae3820bc9df92399
                         <Button
                             className="flex-1"
                             onClick={() => navigate(`/doctors/${doctor.id}`)}

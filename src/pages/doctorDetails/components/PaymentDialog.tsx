@@ -67,7 +67,7 @@ function PaymentDialog({
     return (
         <Sheet open={open} onOpenChange={onCheckoutOpenChange}>
             <SheetContent
-                className="w-[400px] max-w-full sm:w-[540px] z-[9999] overflow-y-auto"
+                className="w-[400px] max-w-full sm:w-[540px] z-9999 overflow-y-auto"
                 aria-describedby="Paying form for an appointment"
             >
                 <SheetHeader>

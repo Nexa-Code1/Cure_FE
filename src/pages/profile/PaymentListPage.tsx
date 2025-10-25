@@ -146,7 +146,7 @@ export default function PaymentListPage({ cards: initialCards }: Props) {
                     </div>
                 )}
 
-                <div className="sticky bottom-0 left-0 right-0 bg-white/80 backdrop-blur supports-[backdrop-filter]:backdrop-blur-md mt-20">
+                <div className="sticky bottom-0 left-0 right-0 bg-white/80 backdrop-blur supports-backdrop-filter:backdrop-blur-md mt-20">
                     <div className="mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg px-3 sm:px-4 md:px-6 py-3">
                         <button
                             type="button"

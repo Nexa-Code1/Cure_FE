@@ -80,7 +80,7 @@ function CheckoutForm({
         <form onSubmit={handleSubmit}>
             <PaymentMethods />
             <Button
-                className="w-full border-1 border-dashed border-primary-100 text-primary-100 cursor-pointer hover:text-primary-100 mb-4"
+                className="w-full border-dashed border-primary-100 text-primary-100 cursor-pointer hover:text-primary-100 mb-4"
                 variant="outline"
                 type="button"
                 onClick={() => setIsAddingNewCard((prev) => !prev)}
