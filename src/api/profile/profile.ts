@@ -126,7 +126,7 @@ export async function addPaymentMethod(paymentMethodId: string) {
     try {
         const res = await axios.post(
             `${BASE_URL}/user/add-payment-method`,
-            { stripe_payment_method_id: paymentMethodId },
+            { pm_id: paymentMethodId },
             {
                 headers: {
                     "Content-Type": "application/json",
@@ -134,7 +134,6 @@ export async function addPaymentMethod(paymentMethodId: string) {
                 },
             }
         );
-        console.log(res);
 
         if (res.status === 200) {
             toast.success("Payment method added successfully");
@@ -142,8 +141,8 @@ export async function addPaymentMethod(paymentMethodId: string) {
         }
     } catch (e) {
         const err = e as AxiosError<{ message?: string }>;
-        toast.error("Failed to add payment method");
-        console.error(err);
+        if (err.response?.data.message) toast.error(err.response.data.message);
+        else toast.error("Failed to add payment method");
         throw err;
     }
 }
@@ -152,7 +151,7 @@ export async function removePaymentMethod(paymentMethodId: string) {
     try {
         const res = await axios.post(
             `${BASE_URL}/user/remove-payment-method`,
-            { stripe_payment_method_id: paymentMethodId },
+            { pm_id: paymentMethodId },
             {
                 headers: {
                     "Content-Type": "application/json",
