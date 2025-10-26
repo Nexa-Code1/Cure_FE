@@ -5,185 +5,87 @@ import toast from "react-hot-toast";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const getProfile = async () => {
-    try {
-        const response = await axios.get(`${BASE_URL}/user/profile`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-        });
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        toast.error("Failed to fetch profile");
-    }
+  try {
+    const response = await axios.get(`${BASE_URL}/user/profile`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    toast.error("Failed to fetch profile");
+  }
 };
 
 export async function updateProfile(data: UpdateProfilePayload) {
-    try {
-        console.log(data);
-        const formData = new FormData();
-        formData.append("fullname", data.fullname);
-        formData.append("email", data.email);
-        formData.append("phone", data.phone);
-        formData.append("date_of_birth", data.birthdate);
-        formData.append("address", data.address);
-        if (data.image) formData.append("image", data.image);
+  try {
+    console.log(data);
+    const formData = new FormData();
+    formData.append("fullname", data.fullname);
+    formData.append("email", data.email);
+    formData.append("phone", data.phone);
+    formData.append("date_of_birth", data.birthdate);
+    formData.append("address", data.address);
+    if (data.image) formData.append("image", data.image);
 
-        const res = await axios.put(
-            `${BASE_URL}/user/update-profile`,
-            formData,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            }
-        );
-        if (res.status === 200) {
-            toast.success("Profile updated successfully");
-            return res.data;
-        }
-    } catch (e) {
-        const err = e as AxiosError<{ message?: string }>;
-        toast.error("Failed to update profile");
-        console.error(err);
-        throw err;
+    const res = await axios.put(`${BASE_URL}/user/update-profile`, formData, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    if (res.status === 200) {
+      toast.success("Profile updated successfully");
+      return res.data;
     }
+  } catch (e) {
+    const err = e as AxiosError<{ message?: string }>;
+    toast.error("Failed to update profile");
+    console.error(err);
+    throw err;
+  }
 }
 
 export async function updatePassword(values: FormResetPassword) {
-    try {
-        const res = await axios.patch(
-            `${BASE_URL}/user/update-password`,
-            values,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            }
-        );
-        if (res.status === 200) {
-            toast.success("Password updated successfully");
-            return res.data;
-        }
-    } catch (e) {
-        const err = e as AxiosError<{ message?: string }>;
-        const msg = err.response?.data?.message || "Failed to update password";
-        toast.error(msg);
-        throw err;
+  try {
+    const res = await axios.patch(`${BASE_URL}/user/update-password`, values, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    if (res.status === 200) {
+      toast.success("Password updated successfully");
+      return res.data;
     }
+  } catch (e) {
+    const err = e as AxiosError<{ message?: string }>;
+    const msg = err.response?.data?.message || "Failed to update password";
+    toast.error(msg);
+    throw err;
+  }
 }
 
 export async function deleteAccount(password: string) {
-    try {
-        const res = await axios.delete(`${BASE_URL}/user/delete-profile`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-            data: {
-                password,
-            },
-        });
+  try {
+    const res = await axios.delete(`${BASE_URL}/user/delete-profile`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      data: {
+        password,
+      },
+    });
 
-        toast.success("Your account was delete successfully");
-        return res.data;
-    } catch (e) {
-        const err = e as AxiosError<{ message?: string }>;
-        const msg = err.response?.data?.message || "Failed to delete account";
-        toast.error(msg);
-        throw err;
-    }
+    toast.success("Your account was delete successfully");
+    return res.data;
+  } catch (e) {
+    const err = e as AxiosError<{ message?: string }>;
+    const msg = err.response?.data?.message || "Failed to delete account";
+    toast.error(msg);
+    throw err;
+  }
 }
-
-/* ============== FOR STRIPE ============== */
-export async function createSetupIntent() {
-    try {
-        const res = await axios.post(
-            `${BASE_URL}/user/create-setup-intent`,
-            {},
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            }
-        );
-
-        return res.data;
-    } catch (e) {
-        const err = e as AxiosError<{ message?: string }>;
-        const msg =
-            err.response?.data?.message || "Failed to create setup intent";
-        toast.error(msg);
-        throw err;
-    }
-}
-
-export async function addPaymentMethod(paymentMethodId: string) {
-    try {
-        const res = await axios.post(
-            `${BASE_URL}/user/add-payment-method`,
-            { pm_id: paymentMethodId },
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            }
-        );
-
-        if (res.status === 200) {
-            toast.success("Payment method added successfully");
-            return true;
-        }
-    } catch (e) {
-        const err = e as AxiosError<{ message?: string }>;
-        if (err.response?.data.message) toast.error(err.response.data.message);
-        else toast.error("Failed to add payment method");
-        throw err;
-    }
-}
-
-export async function removePaymentMethod(paymentMethodId: string) {
-    try {
-        const res = await axios.post(
-            `${BASE_URL}/user/remove-payment-method`,
-            { pm_id: paymentMethodId },
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            }
-        );
-
-        if (res.status === 200) {
-            toast.success("Payment method deleted successfully");
-            return true;
-        }
-    } catch (e) {
-        const err = e as AxiosError<{ message?: string }>;
-        toast.error("Failed to delete payment method");
-        console.error(err);
-        throw err;
-    }
-}
-
-export const getPaymentMethods = async () => {
-    try {
-        const response = await axios.get(`${BASE_URL}/user/payment-methods`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-        });
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        toast.error("Failed to get payment methods");
-    }
-};
-/* ============== FOR STRIPE ============== */

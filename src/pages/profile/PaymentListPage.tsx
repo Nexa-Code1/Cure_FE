@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import nothingImg from "@/assets/images/no-cards.png";
-import { getPaymentMethods, removePaymentMethod } from "@/api/profile/profile";
+import { getPaymentMethods, removePaymentMethod } from "@/api/payment/payment";
 import type { PaymentCard } from "@/types";
 import { Loader } from "@/components/common/Loader";
 import { Button } from "@/components/ui/button";
