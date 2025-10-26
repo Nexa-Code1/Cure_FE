@@ -50,7 +50,7 @@ function CheckoutForm({
 
             setIsLoading(true);
             // if user selected saved card
-            if (!isAddingNewCard || !selectedCardId) {
+            if (!isAddingNewCard && !selectedCardId) {
                 throw new Error("Please select payment method or add new one.");
             } else if (selectedCardId) {
                 const res = await createBookingIntent(
