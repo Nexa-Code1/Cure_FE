@@ -21,28 +21,33 @@ export const getProfile = async () => {
 
 export async function updateProfile(data: UpdateProfilePayload) {
   try {
-    console.log(data);
     const formData = new FormData();
+
     formData.append("fullname", data.fullname);
     formData.append("email", data.email);
     formData.append("phone", data.phone);
     formData.append("date_of_birth", data.birthdate);
-    formData.append("address", data.address);
-    if (data.image) formData.append("image", data.image);
+    formData.append("address", data.address || "");
+    formData.append("gender", data.gender || "");
+
+    if (data.image instanceof File) {
+      formData.append("image", data.image);
+    }
 
     const res = await axios.put(`${BASE_URL}/user/update-profile`, formData, {
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "multipart/form-data",
       },
     });
+
     if (res.status === 200) {
       toast.success("Profile updated successfully");
       return res.data;
     }
   } catch (e) {
     const err = e as AxiosError<{ message?: string }>;
-    toast.error("Failed to update profile");
+    toast.error(err.response?.data?.message || "Failed to update profile");
     console.error(err);
     throw err;
   }
@@ -52,7 +57,6 @@ export async function updatePassword(values: FormResetPassword) {
   try {
     const res = await axios.patch(`${BASE_URL}/user/update-password`, values, {
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
