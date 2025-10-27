@@ -1,5 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
-import { formatDistanceToNow } from "date-fns";
+import { compareAsc, format, formatDistanceToNow, parse } from "date-fns";
 import { twMerge } from "tailwind-merge";
 import { countries, months } from "./data";
 import type { CardBrand } from "@/types";
@@ -21,6 +21,23 @@ export function getFormattedDate(date: Date) {
         addSuffix: true,
     });
 }
+
+export const getFormattedTimes = (times: string[]) => {
+    return times
+        .map((time) => {
+            let parsedTime;
+            if (time.split(":").length === 3)
+                parsedTime = parse(time, "HH:mm:ss", new Date());
+            else parsedTime = parse(time, "HH:mm", new Date());
+            return format(parsedTime, "HH:mm");
+        })
+        .sort((a, b) =>
+            compareAsc(
+                parse(a, "HH:mm", new Date()),
+                parse(b, "HH:mm", new Date())
+            )
+        );
+};
 
 export const formatTime = (time: string) => {
     const [hours, minutes] = time?.split(":")?.map(Number) ?? [];

@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 import type { IAvailableSlot, IAppointmentValues } from "@/types";
 import type { FormikProps } from "formik";
 import AlertMsg from "@/components/common/AlertMsg";
+import { getFormattedTimes } from "@/lib/utils";
 
 type AppointmentTimeProps = {
     formik: FormikProps<IAppointmentValues>;
@@ -31,8 +32,8 @@ function AppointmentTime({ formik, availableSlots }: AppointmentTimeProps) {
                         Please select an available date!
                     </p>
                 ) : (
-                    availableTimes.map((slot: IAvailableSlot) =>
-                        slot.slots.map((time: string) => (
+                    availableTimes.map((date: IAvailableSlot) =>
+                        getFormattedTimes(date.slots).map((time: string) => (
                             <div key={time}>
                                 <RadioGroupItem
                                     value={time}
