@@ -1,6 +1,6 @@
-import React from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 
 import { Star } from "lucide-react";
@@ -12,37 +12,91 @@ import {
     DialogTitle,
     DialogFooter,
 } from "@/components/ui/dialog";
-import { addReview } from "@/api/doctors/doctors";
+import {
+    addReview,
+    getDoctorDetails,
+    updateReview,
+} from "@/api/doctors/doctors";
 import GoBackButton from "@/components/common/GoBackButton";
+import type { IReview } from "@/types";
+import { useUserContext } from "@/context/user-context";
+import PageLoader from "@/components/common/PageLoader";
+import AlertMsg from "@/components/common/AlertMsg";
 
 export default function ReviewPage() {
-    const [rating, setRating] = React.useState<number>(0);
-    const [hover, setHover] = React.useState<number | null>(null);
-    const [comment, setComment] = React.useState("");
-    const [open, setOpen] = React.useState(false);
+    const { user } = useUserContext();
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [rating, setRating] = useState<number>(0);
+    const [comment, setComment] = useState("");
+    const [prevReview, setPrevReview] = useState<IReview | null>(null);
+    const [hover, setHover] = useState<number | null>(null);
+    const [open, setOpen] = useState(false);
+
     const display = hover ?? rating;
     const { doctorId } = useParams();
     const navigate = useNavigate();
 
-    async function handleSubmit(e: React.FormEvent) {
+    useEffect(() => {
+        (async () => {
+            try {
+                setIsLoading(true);
+                if (!user) return;
+                if (!doctorId)
+                    throw new Error(
+                        "Invalid doctor id. Cannot find doctor. Please check the url again."
+                    );
+                const res = await getDoctorDetails(doctorId);
+                const userPrevReview = res.reviews.find(
+                    (review: IReview) => review.user.id === user.id
+                );
+
+                setRating(userPrevReview.rate);
+                setComment(userPrevReview.comment);
+                setPrevReview(userPrevReview);
+            } catch (error) {
+                const e = error as AxiosError<{ message?: string }>;
+                setError(
+                    e?.response?.data.message ||
+                        "Something went wrong. Cannot get review"
+                );
+            } finally {
+                setIsLoading(false);
+            }
+        })();
+    }, [user]);
+
+    if (isLoading) return <PageLoader />;
+    if (!isLoading && error)
+        return <AlertMsg message={error || "Doctor is not found."} />;
+
+    async function handleSubmit(e: FormEvent) {
         e.preventDefault();
         try {
-            const res = await addReview({
+            const reviewData = {
                 doctorId: Number(doctorId),
                 rating,
                 comment: comment,
-            });
-            console.log(res);
+            };
 
-            if (res.status === 201) toast.success("Added review successfully");
+            if (prevReview) {
+                const res = await updateReview(reviewData, prevReview.id);
+                if (res.status === 201)
+                    toast.success("Updated review successfully");
+            } else {
+                const res = await addReview(reviewData);
+                if (res.status === 201)
+                    toast.success("Added review successfully");
+            }
             setOpen(true);
-            navigate(`/doctors/${doctorId}`);
+            navigate(-1);
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 toast.error(error.response?.data?.message);
             } else {
                 toast.error(
-                    "An unexpected error occurred. Cannot make an appointment."
+                    "An unexpected error occurred. Cannot make a review."
                 );
             }
         }
@@ -119,7 +173,9 @@ export default function ReviewPage() {
                             type="submit"
                             className="w-full h-11 sm:h-12 rounded-xl text-sm sm:text-base bg-blue-600 hover:bg-blue-700"
                         >
-                            Send your review
+                            {prevReview
+                                ? "Update your review"
+                                : "Send your review"}
                         </Button>
                     </div>
                 </form>

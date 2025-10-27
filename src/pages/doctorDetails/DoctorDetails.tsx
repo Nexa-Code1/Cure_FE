@@ -46,7 +46,6 @@ function DoctorDetails() {
                 message={
                     error || "Something went wrong cannot get doctor details."
                 }
-                className="mx-auto mt-40 flex flex-col items-center gap-4 text-xl"
             />
         );
 

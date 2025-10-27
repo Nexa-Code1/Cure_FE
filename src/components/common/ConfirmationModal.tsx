@@ -12,19 +12,19 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-type CancelConfirmationProps = {
+type ConfirmationProps = {
     children: ReactNode;
     onConfirm: () => void;
-    isCanceling: boolean;
+    isLoading: boolean;
     message: string;
 };
 
-function CancelConfirmationModal({
+function ConfirmationModal({
     children,
     onConfirm,
-    isCanceling,
+    isLoading,
     message,
-}: CancelConfirmationProps) {
+}: ConfirmationProps) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
@@ -36,14 +36,11 @@ function CancelConfirmationModal({
                     <AlertDialogDescription>{message}</AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel disabled={isCanceling}>
+                    <AlertDialogCancel disabled={isLoading}>
                         Cancel
                     </AlertDialogCancel>
-                    <AlertDialogAction
-                        onClick={onConfirm}
-                        disabled={isCanceling}
-                    >
-                        {isCanceling ? "Loading..." : "Continue"}
+                    <AlertDialogAction onClick={onConfirm} disabled={isLoading}>
+                        {isLoading ? "Loading..." : "Continue"}
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
@@ -51,4 +48,4 @@ function CancelConfirmationModal({
     );
 }
 
-export default CancelConfirmationModal;
+export default ConfirmationModal;

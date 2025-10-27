@@ -88,3 +88,34 @@ export const addReview = async (reviewData: {
         throw error;
     }
 };
+
+// UPDATE REVIEW
+export const updateReview = async (
+    reviewData: {
+        doctorId: number;
+        rating: number;
+        comment: string;
+    },
+    reviewId: number
+) => {
+    try {
+        const response = await axios.put(
+            `${BASE_URL}/review/update-review/${reviewId}`,
+            {
+                rate: reviewData.rating,
+                comment: reviewData.comment,
+                doctor_id: reviewData.doctorId,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};

@@ -6,10 +6,10 @@ import { getPaymentMethods, removePaymentMethod } from "@/api/payment/payment";
 import type { PaymentCard } from "@/types";
 import { Loader } from "@/components/common/Loader";
 import { Button } from "@/components/ui/button";
-import CancelConfirmationModal from "@/components/common/CancelConfirmationModal";
 import type { PaymentMethod } from "@stripe/stripe-js";
 import { brandLogoSrc } from "@/lib/utils";
 import GoBackButton from "@/components/common/GoBackButton";
+import ConfirmationModal from "@/components/common/ConfirmationModal";
 
 type Props = {
     emptyImageSrc?: string;
@@ -115,11 +115,11 @@ export default function PaymentListPage({ cards: initialCards }: Props) {
                                     <span className="font-semibold flex-1">
                                         •••• {card.last4}
                                     </span>
-                                    <CancelConfirmationModal
+                                    <ConfirmationModal
                                         onConfirm={() =>
                                             handleDeletePaymentMethod(card.id)
                                         }
-                                        isCanceling={isLoadingDeletingMethod}
+                                        isLoading={isLoadingDeletingMethod}
                                         message="This action cannot be undone. This will permanently delete this payment method."
                                     >
                                         <Button
@@ -131,7 +131,7 @@ export default function PaymentListPage({ cards: initialCards }: Props) {
                                                 ? "Deleting..."
                                                 : "Delete"}
                                         </Button>
-                                    </CancelConfirmationModal>
+                                    </ConfirmationModal>
                                 </div>
                             );
                         })}

@@ -31,7 +31,7 @@ function AppointmentDate({ formik, availableSlots }: AppointmentDateProps) {
                 <AccordionItem value="item-1">
                     <div className="flex justify-between items-center gap-1">
                         <label
-                            htmlFor="date"
+                            htmlFor="booking-day"
                             className="text-secondary-400 text-sm sm:text-base"
                         >
                             Choose date and time
@@ -39,7 +39,7 @@ function AppointmentDate({ formik, availableSlots }: AppointmentDateProps) {
                         <div className="flex items-center gap-1">
                             <Calendar1Icon className="text-primary-200" />
                             <AccordionTrigger
-                                id="date"
+                                id="booking-day"
                                 className="flex items-center justify-start font-normal cursor-pointer border-primary-100 gap-1 text-primary-200"
                             >
                                 {formik.values.date

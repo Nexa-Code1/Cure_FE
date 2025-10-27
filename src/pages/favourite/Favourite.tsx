@@ -1,6 +1,6 @@
+import PageLoader from "@/components/common/PageLoader";
 import CardDoctor from "../../components/common/CardDoctor";
 import GoBackButton from "../../components/common/GoBackButton";
-import { Loader } from "../../components/common/Loader";
 import { useFavourites } from "../../hooks/useFavourite";
 import type { IFavouriteDoctor } from "../../types";
 import noFavourite from "@/assets/images/no-favorite.png";
@@ -18,9 +18,7 @@ export default function Favourite() {
             </div>
 
             {loading ? (
-                <div className="flex items-center justify-center h-screen">
-                    <Loader size="xxl" />
-                </div>
+                <PageLoader />
             ) : allFavourites.length === 0 ? (
                 <div className="flex items-center justify-center h-[calc(100vh-200px)]">
                     <img src={noFavourite} alt="image" />

@@ -1,5 +1,5 @@
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { formatDate } from "date-fns";
 import toast from "react-hot-toast";
 import { Pin } from "lucide-react";
@@ -21,7 +21,8 @@ import { cancelAppointment } from "@/api/appointments/appointments";
 import { getDoctorDetails } from "@/api/doctors/doctors";
 import { useUserContext } from "@/context/user-context";
 import { Loader } from "@/components/common/Loader";
-import CancelConfirmationModal from "@/components/common/CancelConfirmationModal";
+import UpdateAppointmentModal from "./UpdateAppointmentModal";
+import ConfirmationModal from "@/components/common/ConfirmationModal";
 
 type AppointmentCardProps = {
     appointment: IAppointment;
@@ -35,6 +36,7 @@ function AppointmentCard({
     setIsDeletingAppointment,
 }: AppointmentCardProps) {
     const { day, slot, doctor, status } = appointment;
+
     const navigate = useNavigate();
     const { user } = useUserContext();
     const [doctorDetails, setDoctorDetails] = useState<IDoctorDetails | null>(
@@ -44,6 +46,10 @@ function AppointmentCard({
     const [doctorImg, setDoctorImg] = useState(
         doctor.image || doctorPlaceholderImg
     );
+    const [displayedAppointment, setDisplayedAppointment] = useState({
+        day,
+        slot,
+    });
 
     const hasReview = doctorDetails?.reviews.some(
         (review) => review.user_id === user?.id
@@ -84,7 +90,8 @@ function AppointmentCard({
                         iconStyle="text-secondary-300"
                         textStyle="text-secondary-300 font-normal text-xs"
                     >
-                        {formatDate(day, "EEEE, MMMM dd")} - {slot}
+                        {formatDate(displayedAppointment.day, "EEEE, MMMM dd")}{" "}
+                        - {displayedAppointment.slot}
                     </ScheduleLabel>
                     <p
                         className={`text-sm font-medium ${
@@ -103,7 +110,10 @@ function AppointmentCard({
             <hr />
 
             <CardContent>
-                <div className="flex items-center gap-2">
+                <Link
+                    to={`/doctors/${doctor.id}`}
+                    className="flex items-center gap-2"
+                >
                     <Avatar className="w-14 h-14 border-1 border-secondary-200">
                         <AvatarImage
                             src={doctorImg}
@@ -125,7 +135,7 @@ function AppointmentCard({
                             {doctor.specialty}
                         </p>
                     </div>
-                </div>
+                </Link>
                 <div className="flex items-center gap-1 text-sm mt-2">
                     <Pin className="text-secondary-300" size={18} />
                     <span className="text-secondary-400">hospital 57375</span>
@@ -135,22 +145,22 @@ function AppointmentCard({
             <CardFooter className="flex items-center gap-4 mt-2">
                 {status === "upcoming" ? (
                     <>
-                        <CancelConfirmationModal
+                        <ConfirmationModal
                             onConfirm={handleCancelAppointment}
-                            isCanceling={isDeletingAppointment}
+                            isLoading={isDeletingAppointment}
                             message="This action cannot be undone. This will permanently
                         delete this appointment."
                         >
                             <Button variant="outline" className="flex-1">
                                 Cancel
                             </Button>
-                        </CancelConfirmationModal>
-                        <Button
-                            className="flex-1"
-                            onClick={() => navigate(`/doctors/${doctor.id}`)}
-                        >
-                            Reschedule
-                        </Button>
+                        </ConfirmationModal>
+
+                        <UpdateAppointmentModal
+                            doctorId={appointment.doctor_id}
+                            appointmentId={appointment.id}
+                            onUpdateAppointment={setDisplayedAppointment}
+                        />
                     </>
                 ) : status === "completed" ? (
                     <>

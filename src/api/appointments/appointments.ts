@@ -1,5 +1,10 @@
-import type { BookingIntentOptions, IAppointmentData } from "@/types";
-import axios from "axios";
+import type {
+    BookingIntentOptions,
+    IAppointmentData,
+    IAppointmentValues,
+} from "@/types";
+import axios, { AxiosError } from "axios";
+import toast from "react-hot-toast";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -42,6 +47,32 @@ export const createDoctorAppointment = async (
     } catch (error) {
         console.error(error);
         throw error;
+    }
+};
+
+// UPDATE DOCTOR APPOINTMENT
+export const updateDoctorAppointment = async (
+    data: IAppointmentValues,
+    appointmentId: number
+) => {
+    try {
+        const response = await axios.put(
+            `${BASE_URL}/booking/update-booking/${appointmentId}`,
+            { day: data.date, slot: data.time },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (e) {
+        const err = e as AxiosError<{ message?: string }>;
+        const msg =
+            err.response?.data?.message || "Failed to update appointment";
+        toast.error(msg);
+        throw err;
     }
 };
 
