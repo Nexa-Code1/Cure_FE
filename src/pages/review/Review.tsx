@@ -52,9 +52,11 @@ export default function ReviewPage() {
                     (review: IReview) => review.user.id === user.id
                 );
 
-                setRating(userPrevReview.rate);
-                setComment(userPrevReview.comment);
-                setPrevReview(userPrevReview);
+                if (userPrevReview) {
+                    setRating(userPrevReview.rate);
+                    setComment(userPrevReview.comment);
+                    setPrevReview(userPrevReview);
+                } else return;
             } catch (error) {
                 const e = error as AxiosError<{ message?: string }>;
                 setError(
