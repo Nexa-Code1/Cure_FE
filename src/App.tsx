@@ -6,16 +6,16 @@ import "slick-carousel/slick/slick-theme.css";
 import "./App.css";
 
 function App() {
-    return (
-        <>
-            <RouterProvider router={router} />
-            <Toaster
-                containerStyle={{
-                    zIndex: 99999,
-                }}
-            />
-        </>
-    );
+  return (
+    <>
+      <RouterProvider router={router} />
+      <Toaster
+        containerStyle={{
+          zIndex: 99999,
+        }}
+      />
+    </>
+  );
 }
 
 export default App;

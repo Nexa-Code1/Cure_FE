@@ -9,6 +9,7 @@ import {
 import { addPaymentMethod } from "@/api/payment/payment";
 import type { FormEvent } from "react";
 import { Button } from "@/components/ui/button";
+import { Loader } from "@/components/common/Loader";
 
 function NewCardForm() {
   const stripe = useStripe();
@@ -48,8 +49,12 @@ function NewCardForm() {
   return (
     <form onSubmit={handleSubmit}>
       <PaymentElement />
-      <Button type="submit" className="w-full mt-4" disabled={isLoading}>
-        {isLoading ? "Loading..." : "Add Payment Method"}
+      <Button
+        type="submit"
+        className="w-full mt-4 py-6 rounded-xl"
+        disabled={isLoading}
+      >
+        {isLoading ? <Loader size="sm" /> : "Add Payment Method"}
       </Button>
     </form>
   );

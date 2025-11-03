@@ -5,6 +5,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import {
   Camera,
   ChevronDown,
+  Loader2,
   Mail,
   MapPin,
   MapPinIcon,
@@ -158,7 +159,7 @@ export default function EditProfilePage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-white">
-        <div className="mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg px-4 md:px-6">
+        <div className="mx-auto w-full px-4 md:px-6">
           <div className="flex items-center gap-2 py-3">
             <div className="h-9 w-9 rounded-full bg-zinc-100" />
             <div className="mx-auto h-6 w-28 rounded bg-zinc-100" />
@@ -166,7 +167,7 @@ export default function EditProfilePage() {
           </div>
           <div className="mt-6 space-y-4">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="h-12 rounded-xl bg-zinc-100" />
+              <div key={i} className="h-16 rounded-xl bg-zinc-100" />
             ))}
           </div>
         </div>
@@ -187,7 +188,7 @@ export default function EditProfilePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg px-4 md:px-6">
+      <div className="mx-auto w-full px-4 md:px-6">
         <div className="flex items-center gap-2 py-3">
           <GoBackButton />
           <h1 className="mx-auto text-lg font-semibold text-zinc-900">
@@ -269,23 +270,18 @@ export default function EditProfilePage() {
 
                 {/* Phone Field */}
                 <div>
-                  <div className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-100 px-2 py-2">
-                    <div className="flex items-center gap-2 rounded-lg bg-white px-2 py-2">
+                  <div className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-zinc-100 p-6">
+                    <Phone className="h-4 w-4 text-zinc-500" />
+                    <div className="flex items-center gap-2 rounded-lg px-2">
                       <ReactCountryFlag
                         countryCode={values.countryCode || "EG"}
                         svg
                         aria-label={values.countryCode}
-                        style={{
-                          width: "1.25rem",
-                          height: "1.25rem",
-                          borderRadius: "3px",
-                        }}
-                        className="shadow-sm"
                       />
                       <Field
                         as="select"
                         name="countryCode"
-                        className="appearance-none bg-transparent pr-4 text-sm outline-none"
+                        className="appearance-none bg-transparent pr-4 text-sm outline-none cursor-pointer"
                         aria-label="Country code"
                       >
                         {countries.map((c) => (
@@ -294,11 +290,10 @@ export default function EditProfilePage() {
                           </option>
                         ))}
                       </Field>
-                      <ChevronDown className="h-4 w-4 text-zinc-500" />
+                      <ChevronDown className="h-8 w-8 text-zinc-500" />
                     </div>
 
                     <div className="flex w-full items-center gap-2">
-                      <Phone className="h-4 w-4 text-zinc-500" />
                       <Field
                         name="phone"
                         placeholder="Enter your number"
@@ -325,11 +320,11 @@ export default function EditProfilePage() {
                   <p className="mb-2 text-sm font-semibold text-zinc-900">
                     Select gender
                   </p>
-                  <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-100 px-3 py-2">
+                  <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-100 p-6">
                     <Field
                       as="select"
                       name="gender"
-                      className="w-full appearance-none bg-transparent text-sm outline-none"
+                      className="w-full appearance-none bg-transparent text-sm outline-none cursor-pointer"
                     >
                       <option value="">Gender</option>
                       <option value="male">Male</option>
@@ -347,11 +342,11 @@ export default function EditProfilePage() {
 
                   <div className="grid grid-cols-3 gap-3">
                     <div>
-                      <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-100 px-3 py-2">
+                      <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-100 p-6">
                         <Field
                           as="select"
                           name="day"
-                          className="w-full appearance-none bg-transparent text-sm outline-none"
+                          className="w-full appearance-none bg-transparent text-sm outline-none cursor-pointer"
                         >
                           <option value="">Day</option>
                           {days.map((d) => (
@@ -370,11 +365,11 @@ export default function EditProfilePage() {
                     </div>
 
                     <div>
-                      <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-100 px-3 py-2">
+                      <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-100 p-6">
                         <Field
                           as="select"
                           name="month"
-                          className="w-full appearance-none bg-transparent text-sm outline-none"
+                          className="w-full appearance-none bg-transparent text-sm outline-none cursor-pointer"
                         >
                           <option value="">Month</option>
                           {months.map((m) => (
@@ -393,11 +388,11 @@ export default function EditProfilePage() {
                     </div>
 
                     <div>
-                      <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-100 px-3 py-2">
+                      <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-zinc-100 p-6">
                         <Field
                           as="select"
                           name="year"
-                          className="w-full appearance-none bg-transparent text-sm outline-none"
+                          className="w-full appearance-none bg-transparent text-sm outline-none cursor-pointer"
                         >
                           <option value="">Year</option>
                           {years.map((y) => (
@@ -421,9 +416,13 @@ export default function EditProfilePage() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-medium text-white shadow-md hover:bg-blue-700 disabled:opacity-50"
+                className="w-full rounded-lg bg-blue-600 p-6 text-sm font-medium text-white shadow-md hover:bg-blue-700 disabled:opacity-50"
               >
-                {isSubmitting ? "Updating..." : "Edit Profile"}
+                {isSubmitting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  "Edit Profile"
+                )}
               </Button>
             </Form>
           )}

@@ -181,7 +181,7 @@ const Footer = () => {
           {/* Bottom Section */}
           <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-white text-sm">
-              ©2024 Techvio - All Right Reserved
+              ©{new Date().getFullYear()} NexaCode - All Right Reserved
             </p>
             <div className="flex gap-6">
               <Link
