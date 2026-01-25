@@ -36,8 +36,7 @@ function ProfileDropDownMenu({
           <button
             title="Profile"
             type="button"
-            onClick={() => go("/profile")}
-            className="w-full flex items-center gap-3 mb-4 cursor-pointer hover:bg-gray-50 focus:bg-gray-50 p-2 rounded-md"
+            className="w-full flex items-center gap-3 mb-4 cursor-pointer hover:bg-gray-50 p-2 rounded-md"
           >
             <UserInfo />
           </button>

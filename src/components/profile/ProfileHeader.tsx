@@ -1,12 +1,10 @@
-import { MapPin, Edit } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { MapPin } from "lucide-react";
 
 import { Card } from "../ui/card";
 import userImgPlaceholder from "@/assets/images/user-placeholder.png";
 import { useUserContext } from "@/context/user-context";
 
 export default function ProfileHeader() {
-  const navigate = useNavigate();
   const { user } = useUserContext();
 
   if (!user) {
@@ -40,16 +38,6 @@ export default function ProfileHeader() {
             )}
           </div>
         </div>
-
-        <button
-          type="button"
-          title="Edit profile"
-          onClick={() => navigate("/edit-profile")}
-          className="shrink-0 rounded-full p-2 hover:bg-zinc-100 cursor-pointer"
-          aria-label="Edit profile"
-        >
-          <Edit className="h-5 w-5 text-zinc-600" />
-        </button>
       </div>
     </Card>
   );

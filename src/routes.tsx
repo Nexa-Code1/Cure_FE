@@ -24,11 +24,11 @@ import {
     PasswordManagementPage,
     PaymentListPage,
     AddNewCardPage,
-    ProtectedRoute,
     NotFound,
     MapSearch,
     ContactUs,
     Error,
+    ProtectedRoute,
 } from "./pages/index";
 import { UserContextProvider } from "./context/user-context";
 

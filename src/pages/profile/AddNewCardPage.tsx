@@ -1,5 +1,3 @@
-import { useNavigate } from "react-router-dom";
-import { ChevronLeft } from "lucide-react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
@@ -8,11 +6,11 @@ import card from "@/assets/images/blue gradient.png";
 import NewCardForm from "./NewCardForm";
 import { createSetupIntent } from "@/api/payment/payment";
 import { Loader } from "@/components/common/Loader";
+import GoBackButton from "@/components/common/GoBackButton";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 export default function AddNewCardPage() {
-  const nav = useNavigate();
   const [clientSecret, setClientSecret] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -41,23 +39,15 @@ export default function AddNewCardPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="mx-auto w-full max-w-sm sm:max-w-md md:max-w-lg px-3 sm:px-4 md:px-6">
+      <div className="mx-auto w-full">
         <div className="flex items-center gap-2 py-3 sm:py-4">
-          <button
-            type="button"
-            onClick={() => nav(-1)}
-            aria-label="Back"
-            className="-ml-2 rounded-full p-2 hover:bg-zinc-100"
-          >
-            <ChevronLeft className="h-5 w-5 text-zinc-700" />
-          </button>
+          <GoBackButton />
           <h1 className="mx-auto text-lg sm:text-xl font-semibold text-zinc-900">
             Add New Card
           </h1>
-          <div className="w-9" />
         </div>
 
-        <div className="mt-1 mb-4">
+        <div className="mt-1 mb-4 max-w-sm mx-auto">
           <img
             src={card}
             alt="Card preview"

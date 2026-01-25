@@ -9,8 +9,6 @@ import {
   Shield,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
-import ProfileHeader from "../../components/profile/ProfileHeader";
 import SettingsRow from "../../components/profile/SettingsRow";
 
 import {
@@ -30,12 +28,6 @@ export default function ProfileScreen() {
   const { setUser } = useUserContext();
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [data, setData] = useState<ProfileItem[]>([]);
-
-  const handleToggle = (id: string, next: boolean) => {
-    setData((prev) =>
-      prev.map((it) => (it.id === id ? { ...it, enabled: next } : it))
-    );
-  };
 
   const logoutHandler = async () => {
     try {
@@ -111,16 +103,12 @@ export default function ProfileScreen() {
 
   return (
     <div className="min-h-screen bg-zinc-50 py-4 sm:py-8">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 md:grid-cols-2 gap-4 px-3 sm:px-6 lg:grid-cols-3 lg:gap-6">
-        <div className="lg:col-span-1">
-          <ProfileHeader />
-        </div>
-
-        <div className="lg:col-span-2">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 sm:px-6">
+        <div>
           <ul className="mx-auto space-y-3">
             {data.map((item) => (
               <li key={item.id} className="rounded-2xl bg-zinc-100 px-4 py-3">
-                <SettingsRow item={item} onToggle={handleToggle} />
+                <SettingsRow item={item} />
               </li>
             ))}
           </ul>
@@ -129,7 +117,7 @@ export default function ProfileScreen() {
 
       <Dialog open={logoutOpen} onOpenChange={setLogoutOpen}>
         <DialogContent className="rounded-2xl p-0 sm:max-w-md">
-          <DialogHeader className="px-4 pt-4 pb-2 sm:px-6">
+          <DialogHeader className="px-4 pt-4 sm:px-6">
             <DialogTitle className="text-center text-lg font-semibold">
               Logout
             </DialogTitle>
@@ -146,7 +134,7 @@ export default function ProfileScreen() {
               <DialogClose asChild>
                 <button
                   type="button"
-                  className="w-full rounded-xl bg-zinc-200 px-4 py-3 text-sm font-medium text-zinc-800 hover:bg-zinc-300"
+                  className="w-full cursor-pointer rounded-xl bg-zinc-200 px-4 py-3 text-sm font-medium text-zinc-800 hover:bg-zinc-300"
                 >
                   Cancel
                 </button>
@@ -155,7 +143,7 @@ export default function ProfileScreen() {
               <button
                 type="button"
                 onClick={logoutHandler}
-                className="w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700"
+                className="w-full cursor-pointer rounded-xl bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700"
               >
                 Yes, Logout
               </button>

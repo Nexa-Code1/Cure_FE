@@ -67,7 +67,7 @@ export const getDoctorDetails = async (id: string) => {
 
 // POST REVIEW
 export const addReview = async (reviewData: {
-    doctorId: number;
+    doctorId: string;
     rating: number;
     comment: string;
 }) => {
@@ -92,11 +92,11 @@ export const addReview = async (reviewData: {
 // UPDATE REVIEW
 export const updateReview = async (
     reviewData: {
-        doctorId: number;
+        doctorId: string;
         rating: number;
         comment: string;
     },
-    reviewId: number
+    reviewId: string
 ) => {
     try {
         const response = await axios.put(

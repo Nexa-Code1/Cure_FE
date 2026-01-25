@@ -99,7 +99,7 @@ export default function Hero() {
                     </div>
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-4 z-40">
-                        <Button className="bg-primary text-white px-5 py-2 rounded-md w-[200px] hover:bg-white hover:text-primary border hover:border-primary">
+                        <Button className="bg-primary text-white px-5 py-2 rounded-md w-[200px] hover:bg-white hover:text-primary border hover:border-primary" onClick={() => navigate("/search-map")}>
                             Get Started
                         </Button>
                         <Button

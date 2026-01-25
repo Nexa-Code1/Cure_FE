@@ -8,6 +8,7 @@ import SelectedDoctorPopup from "@/components/common/SelectedDoctorPopup";
 
 const MapSearch = () => {
     const [doctors, setDoctors] = useState<IDoctor[]>([]);
+    const [totalDoctors, setTotalDoctors] = useState<number>(0)
     const mapRef = useRef<L.Map | null>(null);
     const [selectedDoctor, setSelectedDoctor] = useState<IDoctor | null>(null);
     const limit = 10;
@@ -18,6 +19,7 @@ const MapSearch = () => {
         const loadData = async () => {
             try {
                 const doctorsRes = await getDoctors({ offset, limit });
+                setTotalDoctors(doctorsRes.count)
                 setDoctors(doctorsRes.doctors || []);
             } catch (error) {
                 console.error("Error fetching doctors:", error);
@@ -74,7 +76,7 @@ const MapSearch = () => {
                 <div className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-200 bg-white sticky top-0 z-10">
                     <div className="flex items-center space-x-2">
                         <h2 className="text-base sm:text-lg font-semibold text-gray-900">
-                            {doctors.length} Doctors Found
+                            {totalDoctors} Doctors Found
                         </h2>
                         <div className="hidden sm:block w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                     </div>
