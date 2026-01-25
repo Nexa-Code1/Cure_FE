@@ -1,7 +1,6 @@
+import { BASE_URL } from "@/lib/utils";
 import type { ISearchDoctorsParams } from "@/types";
 import axios from "axios";
-
-const BASE_URL = import.meta.env.VITE_ENV === "development" ? import.meta.env.VITE_BASE_URL : import.meta.env.VITE_DEFAULT_BASE_URL;
 
 // GET DOCTORS DATA
 export const getDoctors = async (searchParams: ISearchDoctorsParams) => {

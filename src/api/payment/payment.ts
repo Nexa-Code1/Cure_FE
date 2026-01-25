@@ -1,7 +1,6 @@
 import toast from "react-hot-toast";
 import axios, { AxiosError } from "axios";
-
-const BASE_URL = import.meta.env.VITE_ENV === "development" ? import.meta.env.VITE_BASE_URL : import.meta.env.VITE_DEFAULT_BASE_URL;
+import { BASE_URL } from "@/lib/utils";
 
 export async function createSetupIntent() {
   try {

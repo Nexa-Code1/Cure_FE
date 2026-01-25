@@ -1,3 +1,4 @@
+import { BASE_URL } from "@/lib/utils";
 import type {
     BookingIntentOptions,
     IAppointmentData,
@@ -5,8 +6,6 @@ import type {
 } from "@/types";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
-
-const BASE_URL = import.meta.env.VITE_ENV === "development" ? import.meta.env.VITE_BASE_URL : import.meta.env.VITE_DEFAULT_BASE_URL;
 
 // GET USER APPOINTMENTS
 export const getUserAppointments = async (filterBy: null | string) => {

@@ -1,6 +1,5 @@
+import { BASE_URL } from "@/lib/utils";
 import axios from "axios";
-
-const BASE_URL = import.meta.env.VITE_ENV === "development" ? import.meta.env.VITE_BASE_URL : import.meta.env.VITE_DEFAULT_BASE_URL;
 
 // GET SPECIALITIES
 export const getSpecialists = async () => {
