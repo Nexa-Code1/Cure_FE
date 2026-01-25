@@ -10,7 +10,7 @@ export const handleLogin = async (values: ISignIn) => {
         const res = await axios.post(`${BASE_URL}/auth/login`, values);
 
         if (res.status === 200) {
-            toast.success(`Welcome Back ${res.data.user.fullname} 😊`);
+            toast.success(`Welcome Back ${res.data.user?.fullname || "User"} 😊`);
             localStorage.setItem("token", res.data.token);
             return res.data.user;
         }
