@@ -48,7 +48,7 @@ export type IDoctorDetails = {
     start_time: string;
     end_time: string;
     address: IAddress;
-    price: string;
+    price: number;
     image: string;
     experience: number;
     email: string;

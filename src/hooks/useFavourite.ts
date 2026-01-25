@@ -7,7 +7,7 @@ import type { IFavouriteDoctor } from "@/types";
 import { useEffect, useState } from "react";
 
 export function useFavourites() {
-    const [favouritesIDs, setFavouritesIDs] = useState<number[]>([]);
+    const [favouritesIDs, setFavouritesIDs] = useState<string[]>([]);
     const [allFavourites, setAllFavourites] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -28,7 +28,7 @@ export function useFavourites() {
         fetchFavourites();
     }, []);
 
-    const toggleFavourite = async (doctorId: number) => {
+    const toggleFavourite = async (doctorId: string) => {
         if (favouritesIDs.includes(doctorId)) {
             await handleRemoveFavorite(doctorId.toString());
         } else {

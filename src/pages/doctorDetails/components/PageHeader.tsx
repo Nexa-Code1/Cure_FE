@@ -5,7 +5,7 @@ import { useFavourites } from "@/hooks/useFavourite";
 
 type PageHeaderProps = {
     title: string;
-    doctorId: number;
+    doctorId: string;
     className?: string;
 };
 

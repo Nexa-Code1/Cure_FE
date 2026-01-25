@@ -8,7 +8,7 @@ import doctorPlaceholder from "@/assets/images/doctorPhoto.jpg";
 
 type DoctorCardProps = {
     doctor: IDoctor | IFavouriteDoctor;
-    onToggleFavourite?: (id: number) => void;
+    onToggleFavourite?: (id: string) => void;
     isFavourite?: boolean;
 };
 

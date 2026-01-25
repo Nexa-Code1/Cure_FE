@@ -34,8 +34,8 @@ export const getFormattedTimes = (times: string[]) => {
         .sort((a, b) =>
             compareAsc(
                 parse(a, "HH:mm", new Date()),
-                parse(b, "HH:mm", new Date())
-            )
+                parse(b, "HH:mm", new Date()),
+            ),
         );
 };
 
@@ -80,7 +80,7 @@ export function parseBirthdate(iso?: Date | null) {
 export function buildBirthdate(
     y?: string | number,
     mName?: string,
-    d?: string | number
+    d?: string | number,
 ) {
     if (!y || !mName || !d) return null;
     const idx = months.indexOf(String(mName));

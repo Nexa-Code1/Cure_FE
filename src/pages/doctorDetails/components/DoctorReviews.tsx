@@ -8,7 +8,7 @@ import AlertMsg from "@/components/common/AlertMsg";
 import { useUserContext } from "@/context/user-context";
 
 type DoctorReviewsProps = {
-    doctorId: number;
+    doctorId: string;
     reviews: IReview[];
     rating: string;
 };
@@ -16,7 +16,7 @@ type DoctorReviewsProps = {
 function DoctorReviews({ doctorId, reviews, rating }: DoctorReviewsProps) {
     const { user } = useUserContext();
     const hasCurUserReview = reviews.some(
-        (review) => review.user.id === user?.id
+        (review) => review.user.id === user?.id,
     );
 
     return (

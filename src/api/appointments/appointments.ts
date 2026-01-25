@@ -30,7 +30,7 @@ export const getUserAppointments = async (filterBy: null | string) => {
 // POST DOCTOR APPOINTMENT
 export const createDoctorAppointment = async (
     data: IAppointmentData,
-    paymentIntent: string
+    paymentIntent: string,
 ) => {
     try {
         const response = await axios.post(
@@ -41,7 +41,7 @@ export const createDoctorAppointment = async (
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
-            }
+            },
         );
         return response.data;
     } catch (error) {
@@ -53,7 +53,7 @@ export const createDoctorAppointment = async (
 // UPDATE DOCTOR APPOINTMENT
 export const updateDoctorAppointment = async (
     data: IAppointmentValues,
-    appointmentId: string
+    appointmentId: string,
 ) => {
     try {
         const response = await axios.put(
@@ -64,7 +64,7 @@ export const updateDoctorAppointment = async (
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
-            }
+            },
         );
         return response.data;
     } catch (e) {
@@ -78,8 +78,8 @@ export const updateDoctorAppointment = async (
 
 // POST DOCTOR APPOINTMENT
 export const createBookingIntent = async (
-    doctorId: number,
-    options: BookingIntentOptions
+    doctorId: string,
+    options: BookingIntentOptions,
 ) => {
     try {
         const response = await axios.post(
@@ -92,7 +92,7 @@ export const createBookingIntent = async (
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
-            }
+            },
         );
         return response.data;
     } catch (error) {
@@ -111,7 +111,7 @@ export const cancelAppointment = async (appointmentId: string) => {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                     "Content-Type": "application/json",
                 },
-            }
+            },
         );
         return response.data;
     } catch (error) {
