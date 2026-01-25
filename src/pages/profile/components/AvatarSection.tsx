@@ -52,7 +52,7 @@ export function AvatarSection({
             </div>
 
             <h2 className="mt-3 text-base font-semibold text-zinc-900">
-                {fullName || profile?.fullname}
+                                {fullName || profile?.fullname || ""}
             </h2>
             {address && (
                 <p className="mt-1 flex items-center gap-1 text-xs text-zinc-500">
