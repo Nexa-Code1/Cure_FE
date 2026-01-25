@@ -22,8 +22,8 @@ import AppointmentTime from "@/pages/doctorDetails/components/AppointmentTime";
 import { updateDoctorAppointment } from "@/api/appointments/appointments";
 
 type UpdateAppointmentModalProps = {
-    doctorId: number;
-    appointmentId: number;
+    doctorId: string;
+    appointmentId: string;
     onUpdateAppointment: Dispatch<
         SetStateAction<{ day: string; slot: string }>
     >;

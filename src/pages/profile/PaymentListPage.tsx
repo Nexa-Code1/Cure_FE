@@ -68,28 +68,23 @@ export default function PaymentListPage({ cards: initialCards }: Props) {
     );
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="mx-auto w-full">
-        <div className="flex items-center gap-2 py-3 sm:py-4">
+    <div className="w-full min-h-screen bg-white flex flex-col">
+        <div className="flex items-center gap-2 py-3">
           <GoBackButton />
-          <h1 className="mx-auto text-lg sm:text-xl font-semibold text-zinc-900">
-            Payment Method
+          <h1 className="mx-auto text-xl font-semibold text-zinc-900">
+            Payment Methods
           </h1>
-          <div className="w-9" />
         </div>
 
-        {!hasCards && (
+        {!hasCards ? (
           <div className="mt-8 flex flex-col items-center text-center">
             <img
               src={nothingImg}
               alt="No cards"
-              className="h-80 w-auto select-none"
+              className="h-60 w-auto select-none"
             />
           </div>
-        )}
-
-        {hasCards && (
-          <div className="mt-2 space-y-3 sm:space-y-4">
+        ) : <div className="mt-2 space-y-3 sm:space-y-4">
             {cards.map((card) => {
               return (
                 <div
@@ -125,17 +120,15 @@ export default function PaymentListPage({ cards: initialCards }: Props) {
                 </div>
               );
             })}
-          </div>
-        )}
+          </div>}
 
         <button
           type="button"
           onClick={() => navigate("/add-card")}
-          className="w-full cursor-pointer mt-6 rounded-xl bg-blue-600 px-6 py-4 text-sm font-medium text-white shadow-md hover:bg-blue-700"
+          className="self-center w-full max-w-lg cursor-pointer mt-6 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-md hover:bg-blue-700"
         >
           + Add Card
         </button>
-      </div>
     </div>
   );
 }

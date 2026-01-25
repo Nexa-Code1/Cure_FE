@@ -35,7 +35,7 @@ function AppointmentCard({
   isDeletingAppointment,
   setIsDeletingAppointment,
 }: AppointmentCardProps) {
-  const { day, slot, doctor, status } = appointment;
+  const { day, slot, doctor_id, status } = appointment;
 
   const navigate = useNavigate();
   const { user } = useUserContext();
@@ -44,7 +44,7 @@ function AppointmentCard({
   );
   const [isLoading, setIsLoading] = useState(false);
   const [doctorImg, setDoctorImg] = useState(
-    doctor.image || doctorPlaceholderImg
+    doctor_id.image || doctorPlaceholderImg
   );
   const [displayedAppointment, setDisplayedAppointment] = useState({
     day,
@@ -59,7 +59,7 @@ function AppointmentCard({
     (async () => {
       try {
         setIsLoading(true);
-        const res = await getDoctorDetails(doctor.id.toString());
+        const res = await getDoctorDetails(doctor_id._id);
         setDoctorDetails(res);
       } catch (error) {
         console.error(error);
@@ -110,23 +110,23 @@ function AppointmentCard({
       <hr />
 
       <CardContent className="mt-2">
-        <Link to={`/doctors/${doctor.id}`} className="flex items-center gap-2">
+        <Link to={`/doctors/${doctor_id._id}`} className="flex items-center gap-2">
           <Avatar className="w-14 h-14 border-1 border-secondary-200">
             <AvatarImage
               src={doctorImg}
               onError={() => setDoctorImg(doctorPlaceholderImg)}
-              alt={doctor.name + "'s image"}
+              alt={doctor_id.name + "'s image"}
               className="object-cover"
             />
-            <AvatarFallback>{getInitials(doctor.name)}</AvatarFallback>
+            <AvatarFallback>{getInitials(doctor_id.name)}</AvatarFallback>
           </Avatar>
 
           <div>
             <h2 className="text-primary-200 font-medium text-base">
-              {doctor.name}
+              {doctor_id.name}
             </h2>
 
-            <p className="text-secondary-400 text-base">{doctor.specialty}</p>
+            <p className="text-secondary-400 text-base">{doctor_id.specialty}</p>
           </div>
         </Link>
         <div className="flex items-center gap-1 text-sm mt-2">
@@ -150,7 +150,7 @@ function AppointmentCard({
             </ConfirmationModal>
 
             <UpdateAppointmentModal
-              doctorId={appointment.doctor_id}
+              doctorId={appointment.doctor_id._id}
               appointmentId={appointment.id}
               onUpdateAppointment={setDisplayedAppointment}
             />
@@ -160,13 +160,13 @@ function AppointmentCard({
             <Button
               variant="outline"
               className="flex-1"
-              onClick={() => navigate(`/doctors/${doctor.id}`)}
+              onClick={() => navigate(`/doctors/${doctor_id._id}`)}
             >
               Book again
             </Button>
             <Button
               className="flex-1"
-              onClick={() => navigate(`/doctors/${doctor.id}/review`)}
+              onClick={() => navigate(`/doctors/${doctor_id._id}/review`)}
               disabled={!!hasReview || isLoading}
             >
               {isLoading ? <Loader /> : "Feedback"}
@@ -175,7 +175,7 @@ function AppointmentCard({
         ) : (
           <Button
             className="flex-1"
-            onClick={() => navigate(`/doctors/${doctor.id}`)}
+            onClick={() => navigate(`/doctors/${doctor_id._id}`)}
           >
             Book again
           </Button>

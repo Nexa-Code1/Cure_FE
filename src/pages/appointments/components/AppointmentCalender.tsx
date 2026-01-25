@@ -20,8 +20,8 @@ function AppointmentCalender({ dates, setDates }: AppointmentCalenderProps) {
             <AccordionItem value="item-1" className="flex flex-col">
                 <div className="self-end flex items-center gap-2 border-1 border-secondary-200 rounded-lg px-2 md:px-4 py-1 md:py-2">
                     <Calendar1Icon className="text-secondary-300" />
-                    <AccordionTrigger className="flex items-center justify-between gap-1 p-0 w-fit md:w-56">
-                        <p className="text-xs md:text-sm hidden md:block">
+                    <AccordionTrigger className="flex items-center justify-between gap-1 p-0 w-fit lg:w-56">
+                        <p className="text-xs md:text-sm hidden lg:block">
                             Select date
                         </p>
                     </AccordionTrigger>

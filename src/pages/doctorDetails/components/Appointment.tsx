@@ -48,7 +48,7 @@ function Appointment({ availableSlots, doctorDetails }: AppointmentProps) {
             const appointmentData = {
                 ...values,
                 doctor_id: doctorDetails.id,
-                date: formatDate(values.date, "yyyy-M-d"),
+                date: formatDate(values.date, "yyyy-MM-dd"),
                 doctor_name: doctorDetails.name,
                 price: doctorDetails.price,
             };

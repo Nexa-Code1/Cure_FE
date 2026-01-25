@@ -47,11 +47,11 @@ function NewCardForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <PaymentElement />
+    <form onSubmit={handleSubmit} className="flex flex-col items-center">
+      <PaymentElement className="w-full max-w-lg"/>
       <Button
         type="submit"
-        className="w-full mt-4 py-6 rounded-xl"
+        className="self-center w-full max-w-lg cursor-pointer mt-6 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-md hover:bg-blue-700"
         disabled={isLoading}
       >
         {isLoading ? <Loader size="sm" /> : "Add Payment Method"}

@@ -3,7 +3,6 @@ import { Clock, Star } from "lucide-react";
 
 import type { IDoctor } from "@/types";
 import imageDoctorPlaceholder from "@/assets/images/doctorPhoto.jpg";
-import { formatTime } from "@/lib/utils";
 
 interface SelectedDoctorPopupProps {
     selectedDoctor: IDoctor;
@@ -65,11 +64,11 @@ function SelectedDoctorPopup({
                         <Clock className="w-4 h-4" />
                         <div className="flex flex-col sm:flex-row sm:space-x-1">
                             <span className="font-medium">
-                                {formatTime(selectedDoctor.start_time)}
+                                {selectedDoctor.start_time}
                             </span>
                             <span className="hidden sm:inline">-</span>
                             <span className="font-medium">
-                                {formatTime(selectedDoctor.end_time)}
+                                {selectedDoctor.end_time}
                             </span>
                         </div>
                     </div>

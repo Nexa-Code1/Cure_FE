@@ -39,7 +39,7 @@ function Appointments() {
 
   if (isLoading) return <Loader className="mt-40 mx-auto" size="xl" />;
   if (!isLoading && (!userAppointments || !userAppointments?.length))
-    return <NoData />;
+    return <NoData msg="No appointments found. Start making appointments." />;
 
   let filterdAppointments = userAppointments;
   if (filterBy === "all") filterdAppointments = userAppointments;
@@ -74,7 +74,7 @@ function Appointments() {
         <AppointmentFilterTabs />
 
         {filterdAppointments.length === 0 ? (
-          <NoData />
+          <NoData msg="No appointments found. Start making appointments." />
         ) : (
           <TabsContent
             value={filterBy || "all"}

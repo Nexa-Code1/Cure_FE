@@ -1,7 +1,7 @@
 import type { PaymentIntent } from "@stripe/stripe-js";
 
 export type IUserData = {
-    id: number;
+    id: string;
     fullname: string;
     email: string;
     phone: string;
@@ -16,7 +16,7 @@ export type IUserData = {
 };
 
 export type IDoctor = {
-    id: number;
+    id: string;
     name: string;
     about: string;
     specialty: string;
@@ -40,7 +40,7 @@ export type IDoctor = {
 };
 
 export type IDoctorDetails = {
-    id: number;
+    id: string;
     name: string;
     about: string;
     specialty: string;
@@ -48,7 +48,7 @@ export type IDoctorDetails = {
     start_time: string;
     end_time: string;
     address: IAddress;
-    price: number;
+    price: string;
     image: string;
     experience: number;
     email: string;
@@ -71,7 +71,7 @@ export type IAddress = {
 };
 
 export type IFavouriteDoctor = {
-    id: number;
+    id: string;
     name: string;
     specialty: string;
     image: string;
@@ -115,25 +115,25 @@ export type ISignUp = {
 export type IAppointmentValues = {
     date: string;
     time: string;
-    doctor_id: number;
+    doctor_id: string;
 };
 
 export type IAppointmentData = {
     date: string;
     time: string;
-    doctor_id: number;
+    doctor_id: string;
     doctor_name: string;
     price: number;
 };
 
 export type IReview = {
-    id: number;
+    id: string;
     rate: number;
     comment: string;
     created_at: Date;
     updated_at: Date;
-    doctor_id: number;
-    user_id: number;
+    doctor_id: string;
+    user_id: string;
     user: {
         fullname: string;
         image: string;
@@ -142,7 +142,7 @@ export type IReview = {
 };
 
 export type User = {
-    id: number;
+    id: string;
     name: Name;
     avatar: null;
 };
@@ -160,16 +160,15 @@ export type IReviewsLink = {
 };
 
 export type IAppointment = {
-    id: number;
+    id: string;
     day: string;
     slot: string;
     status: "upcoming" | "completed" | "cancelled" | "all";
     created_at: Date;
     updated_at: Date;
-    user_id: number;
-    doctor_id: number;
-    doctor: {
-        id: number;
+    user_id: string;
+    doctor_id: {
+        _id: string;
         name: string;
         specialty: string;
         image: string;

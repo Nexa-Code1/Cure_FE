@@ -53,7 +53,7 @@ export const createDoctorAppointment = async (
 // UPDATE DOCTOR APPOINTMENT
 export const updateDoctorAppointment = async (
     data: IAppointmentValues,
-    appointmentId: number
+    appointmentId: string
 ) => {
     try {
         const response = await axios.put(
@@ -102,7 +102,7 @@ export const createBookingIntent = async (
 };
 
 // CANCEL USER APPOINTMENT
-export const cancelAppointment = async (appointmentId: number) => {
+export const cancelAppointment = async (appointmentId: string) => {
     try {
         const response = await axios.delete(
             `${BASE_URL}/booking/cancel-doctor/${appointmentId}`,
