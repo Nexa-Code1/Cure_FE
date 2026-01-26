@@ -1,14 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import toast from "react-hot-toast";
-import { useState } from "react";
 
 import { Input } from "@/components/ui/input";
 import BsHeartPulse from "@/assets/images/BsHeartPulse.png";
 import curveBgWhite from "@/assets/images/curve-bg-white.png";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Loader } from "@/components/common/Loader";
 import { handleSignUp } from "@/api/auth/auth";
@@ -16,7 +13,6 @@ import type { ISignUp } from "@/types";
 
 export default function SignUp() {
     const navigate = useNavigate();
-    const [checkbox, setCheckbox] = useState(false);
 
     const validationSchema = yup.object({
         fullname: yup.string().required("Full name is required"),
@@ -31,10 +27,6 @@ export default function SignUp() {
     });
 
     const handleSignUpSubmit = async (values: ISignUp) => {
-        if (!checkbox) {
-            toast.error("Please accept the terms and conditions");
-            return;
-        }
         const res = await handleSignUp(values);
         if (res) {
             navigate("/sign-in");
@@ -52,7 +44,7 @@ export default function SignUp() {
     });
 
     return (
-        <div className="relative lg:min-h-screen py-14 lg:py-0">
+        <div className="relative h-screen py-14 lg:py-0">
             <div className="flex flex-col gap-6 lg:gap-0 lg:flex-row justify-center lg:justify-between h-full">
                 <div className="flex items-center justify-center lg:absolute lg:top-10 lg:left-20">
                     <img className="w-10 h-10" src={BsHeartPulse} alt="Logo" />
@@ -127,28 +119,8 @@ export default function SignUp() {
                             ) : null}
                         </div>
 
-                        <div className="flex items-center gap-2">
-                            <Checkbox
-                                id="terms"
-                                checked={checkbox}
-                                onCheckedChange={(checked) =>
-                                    setCheckbox(Boolean(checked))
-                                }
-                            />
-                            <p className="text-xs md:text-sm my-4">
-                                I agree to the{" "}
-                                <span className="text-primary">
-                                    Terms of Service
-                                </span>{" "}
-                                and{" "}
-                                <span className="text-primary">
-                                    Privacy Policy
-                                </span>
-                            </p>
-                        </div>
-
                         <Button
-                            className="w-full py-5"
+                            className="w-full py-5 mt-4"
                             type="submit"
                             disabled={
                                 formik.isSubmitting ||
