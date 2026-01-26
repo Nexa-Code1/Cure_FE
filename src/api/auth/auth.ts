@@ -8,6 +8,7 @@ let userOTP = "";
 export const handleLogin = async (values: ISignIn) => {
     try {
         const res = await axios.post(`${BASE_URL}/auth/login`, values);
+        console.log(res);
 
         if (res.status === 200) {
             toast.success(`Welcome Back ${res.data.user?.fullname || "User"} 😊`);
