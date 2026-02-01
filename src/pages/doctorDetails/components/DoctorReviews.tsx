@@ -16,7 +16,7 @@ type DoctorReviewsProps = {
 function DoctorReviews({ doctorId, reviews, rating }: DoctorReviewsProps) {
     const { user } = useUserContext();
     const hasCurUserReview = reviews.some(
-        (review) => review.user.id === user?.id,
+        (review) => review.user?.id === user?.id,
     );
 
     return (

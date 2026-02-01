@@ -49,7 +49,7 @@ function UpdateAppointmentModal({
                 );
             }
         })();
-    }, []);
+    }, [isLoading]);
 
     const formik = useFormik({
         // INITIAL VALUES
@@ -71,14 +71,16 @@ function UpdateAppointmentModal({
                 setIsLoading(true);
                 await updateDoctorAppointment(
                     {
-                        date: formatDate(values.date, "yyyy-M-d"),
+                        date: formatDate(values.date, "yyyy-MM-dd"),
                         time: values.time,
                         doctor_id: doctorId,
                     },
                     appointmentId
                 );
+                toast.success("Appointment updated successfully");
             } catch (error) {
                 console.error(error);
+                toast.error("Something went wrong. Cannot update appointment");
             } finally {
                 setIsLoading(false);
                 setIsDialogOpen(false);

@@ -23,6 +23,7 @@ import { useUserContext } from "@/context/user-context";
 import { Loader } from "@/components/common/Loader";
 import UpdateAppointmentModal from "./UpdateAppointmentModal";
 import ConfirmationModal from "@/components/common/ConfirmationModal";
+import { useAddress } from "@/hooks/useAddress";
 
 type AppointmentCardProps = {
   appointment: IAppointment;
@@ -36,6 +37,8 @@ function AppointmentCard({
   setIsDeletingAppointment,
 }: AppointmentCardProps) {
   const { day, slot, doctor_id, status } = appointment;
+
+  const { address, isLoading: isLoadingAddress } = useAddress(doctor_id.address.x, doctor_id.address.y);
 
   const navigate = useNavigate();
   const { user } = useUserContext();
@@ -131,7 +134,9 @@ function AppointmentCard({
         </Link>
         <div className="flex items-center gap-1 text-sm mt-2">
           <Pin className="text-secondary-300" size={18} />
-          <span className="text-secondary-400">hospital 57375</span>
+          {isLoadingAddress ? <p>Loading address...</p> :
+            <span className="text-secondary-400">{address?.display_name}</span>
+          }
         </div>
       </CardContent>
 

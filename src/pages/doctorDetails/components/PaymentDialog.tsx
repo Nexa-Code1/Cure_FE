@@ -96,7 +96,7 @@ function PaymentDialog({
                     </div>
 
                     {isLoading ? (
-                        <Loader />
+                        <Loader className="mx-auto mt-40" />
                     ) : (
                         <Elements stripe={stripePromise} options={options}>
                             <CheckoutForm

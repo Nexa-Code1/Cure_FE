@@ -116,7 +116,6 @@ export default function EditProfilePage() {
 
     async function onSubmit(values: FormValues) {
         try {
-            console.log(values);
             const birthdate = buildBirthdate(
                 values.year,
                 values.month,

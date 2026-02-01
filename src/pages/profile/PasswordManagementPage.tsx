@@ -12,9 +12,7 @@ const PasswordSchema = Yup.object({
   currentPassword: Yup.string().required("Current password is required"),
   newPassword: Yup.string()
     .required("New password is required")
-    .min(8, "Must be at least 8 characters")
-    .matches(/[A-Za-z]/, "Must contain a letter")
-    .matches(/[0-9]/, "Must contain a number"),
+    .min(8, "Must be at least 8 characters"),
   confirmNewPassword: Yup.string()
     .required("Please confirm the new password")
     .oneOf([Yup.ref("newPassword")], "Passwords do not match"),

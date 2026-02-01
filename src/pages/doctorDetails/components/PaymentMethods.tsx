@@ -44,7 +44,7 @@ function PaymentMethods({
     })();
   }, []);
 
-  if (isLoadingMethods) return <Loader />;
+  if (isLoadingMethods) return <Loader className="mx-auto mb-10" />;
 
   return (
     <div className="flex-1">

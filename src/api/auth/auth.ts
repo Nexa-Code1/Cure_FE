@@ -1,15 +1,14 @@
-import { BASE_URL } from "@/lib/utils";
-import type { ISignIn, ISignUp } from "@/types";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
+
+import { BASE_URL } from "@/lib/utils";
+import type { ISignIn, ISignUp } from "@/types";
 
 let userOTP = "";
 
 export const handleLogin = async (values: ISignIn) => {
     try {
         const res = await axios.post(`${BASE_URL}/auth/login`, values);
-        console.log(res);
-
         if (res.status === 200) {
             toast.success(`Welcome Back ${res.data.user?.fullname || "User"} 😊`);
             localStorage.setItem("token", res.data.token);
