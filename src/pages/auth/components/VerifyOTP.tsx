@@ -33,7 +33,9 @@ export default function VerifyOTP() {
     }, [timer]);
 
     const validationSchema = yup.object({
-        otp: yup.string().required("OTP is required"),
+        otp: yup.string()
+            .required("OTP is required")
+            .matches(/^\d{6}$/, "OTP must be exactly 6 digits"),
     });
 
     const handleVerifyOtpSubmit = async (values: { otp: string }) => {
@@ -82,26 +84,24 @@ export default function VerifyOTP() {
                             <InputOTP
                                 maxLength={6}
                                 value={formik.values.otp}
-                                onChange={(val) =>
-                                    formik.setFieldValue("otp", val)
+                                onChange={(value) => 
+                                    formik.setFieldValue("otp", value)
                                 }
-                                onBlur={formik.handleBlur}
                                 name="otp"
-                                className="w-full mx-auto"
                             >
                                 <InputOTPGroup>
                                     {[...Array(6)].map((_, i) => (
                                         <InputOTPSlot
                                             key={i}
                                             index={i}
-                                            className="w-[50px] border"
+                                            className="w-[50px] h-[50px] border-2 border-gray-300 rounded-md"
                                         />
                                     ))}
                                 </InputOTPGroup>
                             </InputOTP>
                         </div>
 
-                        {formik.errors.otp && formik.touched.otp ? (
+                        {formik.errors.otp ? (
                             <p className="text-red-500 text-sm text-center my-4">
                                 {formik.errors.otp}
                             </p>

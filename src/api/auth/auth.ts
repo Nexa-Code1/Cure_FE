@@ -4,8 +4,6 @@ import toast from "react-hot-toast";
 import { BASE_URL } from "@/lib/utils";
 import type { ISignIn, ISignUp } from "@/types";
 
-let userOTP = "";
-
 export const handleLogin = async (values: ISignIn) => {
     try {
         const res = await axios.post(`${BASE_URL}/auth/login`, values);
@@ -76,15 +74,14 @@ export const handleVerifyOtp = async (otp: string) => {
         });
 
         if (res.status === 200) {
-            userOTP = otp;
             toast.success("Otp verified successfully");
             return true;
         }
     } catch (error) {
         const err = error as AxiosError<{ message: string }>;
         console.error("Verify otp error:", err);
-        if (err.response?.data.message === "Invalid or expired OTP") {
-            toast.error("Invalid or expired OTP");
+        if (err.status === 400 && err.response?.data.message) {
+            toast.error(err.response?.data.message);
             return;
         }
         toast.error("Something went wrong");
@@ -98,9 +95,8 @@ export const handleResetPassword = async (values: {
     try {
         const res = await axios.post(`${BASE_URL}/auth/reset-password`, {
             email: localStorage.getItem("userEmail"),
-            otp: userOTP,
             newPassword: values.password,
-            confirmPassword: values.password_confirmation,
+            confirmNewPassword: values.password_confirmation,
         });
 
         if (res.status === 200) {
@@ -111,6 +107,10 @@ export const handleResetPassword = async (values: {
     } catch (error) {
         const err = error as AxiosError<{ message: string }>;
         console.error("Reset password error:", err);
+        if (err.status === 400 && err.response?.data.message) {
+            toast.error(err.response?.data.message);
+            return;
+        }
         toast.error("Something went wrong");
     }
 };
@@ -134,6 +134,10 @@ export const handleLogout = async () => {
     } catch (error) {
         const err = error as AxiosError<{ message: string }>;
         console.error("Logout error:", err);
+        if (err.status === 400 && err.response?.data.message) {
+            toast.error(err.response?.data.message);
+            return;
+        }
         toast.error("Something went wrong");
     }
 };
